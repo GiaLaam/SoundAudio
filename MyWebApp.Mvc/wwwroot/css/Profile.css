@@ -1,0 +1,47 @@
+
+.TextBox {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Align labels and inputs to the left */
+    gap: 10px; /* Spacing between label and input */
+    width: 100%;
+}
+
+.TextBox input {
+    width: 100%; /* Full width for input fields */
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #3f3f3f;
+    border: none;
+    color: white;
+    font-size: 16px;
+}
+
+.TextBox p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.btn-Save {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.btn-Save:hover {
+    background-color: #ddd;
+}
+
+.profile-form {
+    height: 50px; /* Chiều cao cố định 50px cho form */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Ẩn nội dung tràn ra ngoài */
+}

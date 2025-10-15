@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\MyWebApp.Services\MyWebApp.Services.csproj" />
+    <ProjectReference Include="..\MyWebApp.Models\MyWebApp.Models.csproj" />
+    <ProjectReference Include="..\MyWebApp.Data\MyWebApp.Data.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

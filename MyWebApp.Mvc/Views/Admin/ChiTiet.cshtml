@@ -1,0 +1,231 @@
+@model MyWebApp.Models.MusicFile
+@{
+    ViewData["Title"] = "Chi tiết bài hát";
+    var lyric = ViewBag.Lyric as string ?? "";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+<style>
+    .song-detail-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        gap: 40px;
+        padding: 40px;
+        color: #fff;
+        background-image: url('/images/background-texture.png');
+        background-size: cover;
+    }
+
+    .left-info-music {
+        flex: 1 1 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .left-info-music img {
+        width: 250px;
+        height: 250px;
+        border-radius: 12px;
+        object-fit: cover;
+        margin-bottom: 20px;
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .left-info-music h2 {
+        font-size: 2rem;
+        margin: 10px 0;
+    }
+
+    .info-box {
+        margin-top: 10px;
+        background-color: black !important;
+        padding: 10px 20px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 300px;
+        text-align: left;
+    }
+
+    .right-lyrics {
+        flex: 2;
+        background-color: black !important;
+        border-radius: 10px;
+        padding: 20px;
+        max-height: 600px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        font-family: monospace;
+    }
+
+    .btn-back {
+        margin-top: 30px;
+        background-color: #1DB954;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-back:hover {
+        background-color: #17a444;
+    }
+
+    .image-container {
+        position: relative;
+        display: inline-block;
+        width: 250px;
+        height: auto;
+        overflow: hidden;
+    }
+
+    .image-container img {
+        width: 100%;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    .camera-icon {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        background-color: rgba(0,0,0,0.6);
+        color: white;
+        padding: 8px;
+        border-radius: 50%;
+        font-size: 18px;
+        display: none;
+        cursor: pointer;
+    }
+
+    .image-container:hover .camera-icon {
+        display: block;
+    }
+
+    .song-name-edit {
+        margin-top: 20px;
+        max-width: 300px;
+    }
+
+    #NameSongInput {
+        font-size: 1.5rem;
+    }
+
+</style>
+<form asp-action="UpdateSong" asp-controller="Admin" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="song-detail-container">
+        <div class="left-info-music">
+            <div class="image-container position-relative">
+                <img src="@(Model.ImageUrl ?? "/images/default-music.jpg")" alt="Ảnh bài hát" class="img-fluid rounded" id="songImagePreview" />
+                
+                <!-- Icon máy ảnh hover -->
+                <label for="ImageFile" class="camera-icon">
+                    <i class="fas fa-camera"></i>
+                </label>
+                <input type="file" id="ImageFile" name="ImageFile" class="d-none" accept=".jpg,.jpeg,.png" />
+            </div>
+
+            <!-- Chỉnh sửa tên bài hát -->
+            <div class="song-name-edit">
+                <input type="text" name="NameSong" id="NameSongInput" class="form-control d-none" value="@Model.NameSong" />
+                <h2 id="NameSongDisplay">
+                    @Model.NameSong
+                    <i class="fas fa-pen edit-name-icon" style="cursor:pointer;"></i>
+                </h2>
+            </div>
+
+            <div class="info-box">
+                <p><strong><i class="fas fa-clock"></i> Ngày tải lên:</strong><br /> @Model.UploadeAt.ToString("dd/MM/yyyy")</p>
+                <p><strong><i class="fas fa-link"></i> Đường dẫn phát:</strong><br /> <code>@Model.FilePath</code></p>
+            </div>
+
+            <button type="submit" class="btn-back"><i class="fas fa-save"></i> Lưu</button>
+            <a href="/Admin/Dashboard" class="btn-back">
+                <i class="fas fa-arrow-left"></i> Quay lại
+            </a>
+        </div>
+
+        <div class="right-lyrics">
+            <h4><i class="fas fa-music"></i> Lời bài hát</h4>
+            <hr />
+            <pre>@lyric</pre>
+        </div>
+    </div>
+</form>
+
+<nav class="navbar navbar-dark bg-dark fixed-top"  style="background-color: #000 !important;">
+    <div class="container-fluid d-flex align-items-center">
+        <!-- Nút toggle nằm bên trái -->
+        <div class="d-flex align-items-center">
+                <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas"data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand m-0" href="/Admin/Dashboard">SoundAudio</a>
+        </div>
+        <!-- Tìm kiếm đặt bên phải navbar -->
+        <form asp-controller="Home" asp-action="Search" method="get"
+            class="boxsearch position-absolute top-50 start-50 translate-middle d-flex align-items-center">
+            <input type="text" name="query" placeholder="Tìm bài hát..." />
+            <button type="submit">Tìm Kiếm</button>
+        </form>
+        <!-- Offcanvas Sidebar -->
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <a class="navbar-brand" href="/Admin/Dashboard">
+                    <img src="/images/logo.png" alt="SoundAudio"> SoundAudio
+                </a>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Home/Profile">Bạn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/Playlist">Danh sách bài hát</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Danh sách phê duyệt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/DangXuat">Đăng xuất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@section Scripts {
+<script>
+    $(document).ready(function () {
+        // Click vào icon cây bút để sửa tên
+        $('.edit-name-icon').on('click', function () {
+            $('#NameSongDisplay').hide();
+            $('#NameSongInput').removeClass('d-none').focus();
+        });
+
+        // Preview ảnh khi chọn ảnh mới
+        $('#ImageFile').on('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    $('#songImagePreview').attr('src', event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>
+}

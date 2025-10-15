@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoundAudio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/MyWebApp.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="icon" href="~/MyWebApp/images/logo.png" type="image/x-icon" />
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+        </nav>
+    </header>
+
+
+    @RenderBody()
+
+    <div class="box-music">
+        <div id="current-song-info" class="left-info d-flex align-items-center">
+            <img id="current-song-img" src="/images/default-music.jpg" width="50" height="50" class="me-2 rounded" />
+            <span id="current-song-title">Chưa có bài hát nào đang phát</span>           
+        </div>
+
+        <div class="music-controls-container">
+            <div class="music-controls">
+                <button id="shuffle" class="control-btn"><i class="fas fa-random"></i></button>
+                <button id="prev" class="control-btn"><i class="fas fa-step-backward"></i></button>
+                <button id="playPause" class="control-btn"><i class="fas fa-play"></i></button>
+                <button id="next" class="control-btn"><i class="fas fa-step-forward"></i></button>
+                <button id="repeat" class="control-btn"><i class="fas fa-redo-alt"></i></button>
+            </div>
+            <div class="progress-container">
+                <span id="currentTime">00:00</span>
+                <input type="range" id="progressBar" min="0" value="0" step="1" />
+                <span id="duration">00:00</span>
+            </div>
+        </div>
+
+        <div class="volume-controls">
+            <button id="viewLyric" class="control-btn"><i class="fas fa-music"></i></button>
+            <button id="mute" class="control-btn"><i class="fas fa-volume-up"></i></button>
+            <input type="range" id="volume" min="0" max="100" value="100" step="1" />
+        </div>
+    </div>
+
+<!-- Modal hiển thị lời bài hát -->
+<div class="modal fade" id="lyricModal" tabindex="-1" aria-labelledby="lyricModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="lyricModalLabel">Lời bài hát</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="lyricContent">
+        <p>Đang tải lời bài hát...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        document.getElementById('shuffle').addEventListener('click', function () {
+        this.classList.toggle('active');
+        });
+
+        document.getElementById('repeat').addEventListener('click', function () {
+        this.classList.toggle('active');
+        });
+
+        $(document).ready(function () {
+        $('#viewLyric').on('click', function () {
+            const lyricText = $('#lyricContent').html();
+            if (!lyricText || lyricText.trim() === '') {
+                $('#lyricContent').html('<p>Không có lời bài hát nào.</p>');
+            }
+            const modal = new bootstrap.Modal(document.getElementById('lyricModal'));
+            modal.show();
+        });
+    });
+    </script>
+</body>
+</html>

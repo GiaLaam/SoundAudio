@@ -1,0 +1,490 @@
+/* ---------------------- Thiết lập mặc định ---------------------- */
+html {
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  max-width: 100%;
+  background-color: black;
+  background-image: url('/images/background.jpg');
+  overflow-x: hidden;
+}
+/* ---------------------- Sidebar (logo-container) ---------------------- */
+
+
+.menu {
+  font-size: 25px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  padding: 15px 0;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.menu a i {
+  margin-right: 10px;
+}
+
+/* Hộp đăng nhập */
+.login-box {
+  margin-top: 100px;
+  margin-bottom: auto;
+  background-color: #000;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.login-box p {
+  font-size: 14px !important;
+  margin-bottom: 10px;
+}
+
+.signin {
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+img {
+  background: none !important;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Tạo khoảng cách giữa ảnh và chữ */
+}
+
+.navbar-brand img {
+  width: 100px; /* Điều chỉnh kích thước logo */
+  height: auto;
+}
+
+/* ---------------------- Nội dung Sidebar ---------------------- */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.user-info a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+  margin: 0.625rem 0;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+}
+
+.user-info a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ---------------------- Main Content (Phần bên phải) ---------------------- */
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; /* Căn giữa nội dung */
+  align-items: center;
+  width: calc(100% - 250px); /* Trừ đi sidebar */
+  margin-left: 250px; /* Đảm bảo không bị che bởi sidebar */
+  transition: all 0.3s ease-in-out;
+}
+
+.main-content h1 {
+  font-size: 3rem;
+  transition: font-size 0.3s ease-in-out;
+}
+
+.main-content {
+  flex: 1;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+/* ---------------------- các box ---------------------- */
+.boxsearch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.boxsearch input {
+  width: 500px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: #333;
+  color: white;
+  outline: none;
+}
+
+.boxsearch button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+}
+.right-section {
+  align-items: center;
+  justify-content: flex-start;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding-right: 20px;
+  gap: 10px;
+  z-index: 2000;
+  margin-top: 20px;
+}
+
+/* Link Đăng ký */
+.register-link {
+  color: white;
+  font-size: 14px;
+  margin-right: 15px;
+  text-decoration: none;
+}
+
+/* Nút Đăng nhập */
+.login-button {
+  background-color: white;
+  color: black !important;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-button:hover {
+  background-color: #ddd;
+}
+
+.boxsearch button:hover {
+  background-color: #ddd;
+}
+
+.box-music{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 85px;
+  color: white !important;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 2px 5px rgba(150, 148, 148, 0.1);
+  z-index: 100;
+}
+
+.left-info{
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 15px;
+}
+.music-controls {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Giảm khoảng cách để hợp lý hơn */
+}
+
+.volume-controls{
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap:10px;
+  margin-right: 10px;
+}
+
+/*--------- Container cho nút điều khiển nhạc -------------*/
+.button-container {
+  display: flex;
+  gap: 30px;
+}
+
+/* Căn chỉnh các nút điều khiển */
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.control-btn:hover {
+  color: #1DB954; /* Màu xanh Spotify */
+}
+
+.control-btn.active{
+  color: #1DB954; /* Màu xanh sáng khi nhấn */
+}
+
+/* Căn chỉnh thanh thời gian dưới các nút */
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+}
+
+/* Định dạng thanh thời gian */
+#progressBar {
+  width: 600px; /* Cố định chiều rộng */
+  max-width: 100%; /* Để không vượt quá cha */
+  height: 5px;
+  background: #555;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+}
+
+
+/* ----------content image --------------*/
+
+.content{
+  margin: 5rem auto;
+  background-color: #222;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  max-width: 2000px; /* Giới hạn chiều rộng tối đa để đảm bảo tính linh hoạt trên nhiều kích thước màn hình */
+  padding: 20px; /* Thêm khoảng đệm xung quanh nội dung */
+}
+.image-box-wrapper {
+position: relative;
+display: flex;
+flex-direction: column;
+align-items: center;
+background-color: #222;
+}
+
+.image-box {
+border-radius: 10px;
+margin: 2rem;
+background-color: #222;
+overflow-x: auto;
+max-width: 100%;
+scroll-behavior: smooth;
+}
+
+.image-row {
+display: flex;
+gap: 20px;
+flex-wrap: nowrap;
+}
+
+.card {
+width: 300px;
+height: 300px;
+background: #000;
+position: relative;
+overflow: hidden;
+border-radius: 10px;
+flex: 0 0 auto; /* Không co lại khi cuộn */
+}
+
+.card .image {
+width: 100%;
+height: 100%;
+overflow: hidden;
+}
+
+.card .image img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: 0.5s;
+}
+
+.card:hover .image img {
+opacity: 0.5;
+transform: translateX(30%);
+}
+
+.card .details {
+position: absolute;
+top: 0;
+left: 0;
+width: 70%;
+height: 100%;
+color: white;
+background: #000;
+transition: 0.5s;
+transform-origin: left;
+transform: perspective(2000px) rotateY(-90deg);
+}
+
+.card:hover .details {
+transform: perspective(2000px) rotateY(0deg);
+}
+
+.scroll-btn {
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+background: transparent;
+color: white;
+border: none;
+width: 40px;
+height: 40px;
+border-radius: 50%;
+font-size: 20px;
+cursor: pointer;
+z-index: 10;
+opacity: 0.7;
+}
+
+.scroll-btn:hover {
+opacity: 1;
+}
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  max-height: 1200px;
+}
+.center ul {
+  margin: 50px auto 0;
+  padding: 0;
+  display: grid;
+  justify-items: row;
+}
+.center ul li {
+  list-style: none;
+  margin: 0 5px;
+  float: left;
+}
+.center ul li a {
+  display: block;
+  background: #262626;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+.center ul li a:hover {
+  background: #1db954; /* Màu xanh Spotify */
+  color: #fff;
+  transform: scale(1.2);
+}
+/* -----Danh sach phat ------- */
+.index-container {
+  margin: 5rem auto;
+  background-color: #222;
+  border-radius: 10px;
+  max-width: 2000px; /* Giới hạn chiều rộng tối đa để đảm bảo tính linh hoạt trên nhiều kích thước màn hình */
+  padding: 20px;
+}
+
+.NameList{
+  color: white;
+}
+.song-table {
+  width: 100%;
+  color: white;
+}
+
+.song-table-header {
+  display: grid;
+  grid-template-columns: 50px 250px 1fr 100px 50px;
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+  font-weight: bold;
+}
+
+.song-row {
+  display: grid;
+  grid-template-columns: 50px 250px 1fr 100px 50px;
+  padding: 10px 0;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.song-row:hover {
+  background-color: #333;
+}
+
+.song-details {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  width:100%;
+}
+
+.song-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 150px;
+  max-width: 300px;
+}
+
+.song-artist {
+  font-size: 14px;
+  color: #aaa;
+}
+
+.song-duration {
+  text-align: right;
+}
+
+.add-to-playlist {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-to-playlist:hover {
+  color: #1db954; /* Spotify-like green */
+}
+
+.waveform {
+  flex: 1;
+  height: 60px;
+}

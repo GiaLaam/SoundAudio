@@ -1,0 +1,135 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://unpkg.com/wavesurfer.js@7"></script>
+
+<nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container-fluid d-flex align-items-center"></div>
+        <!-- Nút toggle nằm bên trái -->
+        <div class="d-flex align-items-center">
+                <button class="navbar-toggler me-2" type="button" data-bs-toggle="offcanvas"data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand m-0" href="/Admin/Dashboard">SoundAudio</a>
+        </div>
+        <!-- Tìm kiếm đặt bên phải navbar -->
+        <form asp-controller="Home" asp-action="Search" method="get"
+            class="boxsearch position-absolute top-50 start-50 translate-middle d-flex align-items-center">
+            <input type="text" name="query" placeholder="Tìm bài hát..." />
+            <button type="submit">Tìm Kiếm</button>
+        </form>
+        <!-- Offcanvas Sidebar -->
+        <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"aria-labelledby="offcanvasDarkNavbarLabel">
+            <div class="offcanvas-header">
+                <a class="navbar-brand" href="/Admin/Dashboard">
+                    <img src="/images/logo.png" alt="SoundAudio"> SoundAudio
+                </a>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Home/Profile">Bạn</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Admin/Dashboard">Danh sách bài hát</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Danh sách phê duyệt</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Home/DangXuat">Đăng xuất</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<style>
+    .navbar.bg-dark {
+        background-color: #000 !important;
+    }
+
+    .offcanvas-body {
+        font-size: 2rem !important;
+        background-color: #222 !important;
+    }
+
+    .offcanvas-header {
+        background-color: #222 !important;
+    }
+</style>
+
+<!--music-->  
+<div class="index-container">
+    @if (ViewBag.SearchResults == null)
+    {
+        <h2 class="NameList">Danh Sách Nhạc</h2>
+        <a href="/Admin/Add" class="btn btn-outline-light">Thêm bài hát mới</a>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var song = Model[i];
+                <div class="col">
+                    <div class="card h-100 shadow-sm song-card" data-src="@song.FilePath">
+                        <img src="@(song.ImageUrl ?? "/images/default-music.jpg")" class="card-img-top" alt="Ảnh bài hát" />
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title" style="color: white">@song.NameSong</h5>
+                            <div class="mt-auto d-flex justify-content-between">
+                                <a href="/Music/Details/@song.Id" class="btn btn-sm btn-info">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="/Admin/ChiTiet/@song.Id" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form method="post" asp-controller="Admin" asp-action="DeleteSong" asp-route-id="@song.Id" onsubmit="return confirm('Bạn có chắc muốn xoá bài hát này?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else if (ViewBag.ViewMode == "Search")
+    {
+        <h2 class="NameList">Kết quả tìm kiếm</h2>
+        @if (ViewBag.SearchResults != null && ((IEnumerable<dynamic>)ViewBag.SearchResults).Any())
+        {
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                @foreach (var song in ViewBag.SearchResults)
+                {
+                    <div class="col">
+                        <div class="card h-100 shadow-sm song-card">
+                            <img src="@song.ImageUrl ?? "/images/default-music.jpg"" class="card-img-top" alt="Ảnh bài hát" />
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">@song.NameSong</h5>
+                                <button class="btn btn-sm btn-primary mt-auto add-to-playlist" data-song-id="@song.Id">
+                                    <i class="fas fa-plus"></i> Chi tiết
+                                </button>
+                                <button class="btn btn-sm btn-primary mt-auto add-to-playlist" data-song-id="@song.Id">
+                                    <i class="fas fa-plus"></i> Sửa
+                                </button>
+                                <button class="btn btn-sm btn-primary mt-auto add-to-playlist" data-song-id="@song.Id">
+                                    <i class="fas fa-plus"></i> Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>Không tìm thấy bài hát nào.</p>
+        }
+    }
+</div>          

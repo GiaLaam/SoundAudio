@@ -1,0 +1,15 @@
+D:\Đồ án\SoundAudio\MyWebApp.Services\bin\Debug\net9.0\MyWebApp.Services.deps.json
+D:\Đồ án\SoundAudio\MyWebApp.Services\bin\Debug\net9.0\MyWebApp.Services.dll
+D:\Đồ án\SoundAudio\MyWebApp.Services\bin\Debug\net9.0\MyWebApp.Services.pdb
+D:\Đồ án\SoundAudio\MyWebApp.Services\bin\Debug\net9.0\MyWebApp.Models.dll
+D:\Đồ án\SoundAudio\MyWebApp.Services\bin\Debug\net9.0\MyWebApp.Models.pdb
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.csproj.AssemblyReference.cache
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.AssemblyInfoInputs.cache
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.AssemblyInfo.cs
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.csproj.CoreCompileInputs.cache
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.EF07D249.Up2Date
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.dll
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\refint\MyWebApp.Services.dll
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\MyWebApp.Services.pdb
+D:\Đồ án\SoundAudio\MyWebApp.Services\obj\Debug\net9.0\ref\MyWebApp.Services.dll
