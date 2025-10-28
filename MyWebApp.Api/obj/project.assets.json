@@ -5910,46 +5910,38 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/nguyenlam/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Đồ án\\SoundAudio\\MyWebApp.Api\\MyWebApp.Api.csproj",
+      "projectUniqueName": "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/MyWebApp.Api.csproj",
       "projectName": "MyWebApp.Api",
-      "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Api\\MyWebApp.Api.csproj",
-      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Api\\obj\\",
+      "projectPath": "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/MyWebApp.Api.csproj",
+      "packagesPath": "/Users/nguyenlam/.nuget/packages/",
+      "outputPath": "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/nguyenlam/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\Đồ án\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj": {
-              "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj"
+            "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Data/MyWebApp.Data.csproj": {
+              "projectPath": "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Data/MyWebApp.Data.csproj"
             },
-            "D:\\Đồ án\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj": {
-              "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj"
+            "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Models/MyWebApp.Models.csproj": {
+              "projectPath": "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Models/MyWebApp.Models.csproj"
             },
-            "D:\\Đồ án\\SoundAudio\\MyWebApp.Services\\MyWebApp.Services.csproj": {
-              "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Services\\MyWebApp.Services.csproj"
+            "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Services/MyWebApp.Services.csproj": {
+              "projectPath": "/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Services/MyWebApp.Services.csproj"
             }
           }
         }
@@ -5962,9 +5954,9 @@
       "restoreAuditProperties": {
         "enableAudit": "true",
         "auditLevel": "low",
-        "auditMode": "all"
+        "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -6016,7 +6008,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100-rc.2.24474.11/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.202/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

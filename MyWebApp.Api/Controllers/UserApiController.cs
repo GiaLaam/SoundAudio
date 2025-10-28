@@ -50,6 +50,37 @@ namespace MyWebApp.Controllers.Api
             return Ok(new { success = true, user, roles });
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest model)
+        {
+            if (string.IsNullOrEmpty(model.Email) || string.IsNullOrEmpty(model.Password))
+                return BadRequest(new { success = false, message = "Email và mật khẩu không được để trống." });
+
+            var existingUser = await _userManager.FindByEmailAsync(model.Email);
+            if (existingUser != null)
+                return BadRequest(new { success = false, message = "Email đã được sử dụng." });
+
+            var newUser = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FullName = model.FullName ?? ""
+            };
+
+            var result = await _userManager.CreateAsync(newUser, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok(new
+                {
+                    success = true,
+                    message = "Đăng ký thành công!",
+                    user = newUser
+                });
+            }
+
+            return BadRequest(new { success = false, errors = result.Errors });
+        }
+
         /// <summary>
         /// Lấy danh sách tất cả bài hát (đăng nhập mới dùng được).
         /// </summary>
@@ -105,6 +136,13 @@ namespace MyWebApp.Controllers.Api
         {
             public string Email { get; set; } = "";
             public string Password { get; set; } = "";
+        }
+
+        public class RegisterRequest
+        {
+            public string? Email { get; set; }
+            public string? Password { get; set; }
+            public string? FullName { get; set; }
         }
 
         public class UpdateProfileRequest

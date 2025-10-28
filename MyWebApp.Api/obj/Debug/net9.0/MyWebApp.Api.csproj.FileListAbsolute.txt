@@ -1,189 +1,379 @@
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\appsettings.Development.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\appsettings.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Api.staticwebassets.endpoints.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Api.exe
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Api.deps.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Api.runtimeconfig.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Api.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Api.pdb
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Azure.Core.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Azure.Identity.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\DnsClient.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Humanizer.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.JsonPatch.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Build.Locator.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.CodeAnalysis.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.CodeAnalysis.CSharp.Workspaces.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Data.SqlClient.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Abstractions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Design.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Relational.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.SqlServer.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Caching.Abstractions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Caching.Memory.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Configuration.Abstractions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.DependencyModel.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Logging.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Logging.Abstractions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Identity.Client.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Identity.Client.Extensions.Msal.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.OpenApi.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.SqlServer.Server.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Microsoft.Win32.SystemEvents.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MongoDB.Bson.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MongoDB.Driver.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Mono.TextTemplating.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Newtonsoft.Json.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Newtonsoft.Json.Bson.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\SharpCompress.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Snappier.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.ClientModel.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.CodeDom.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Composition.AttributedModel.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Composition.Convention.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Composition.Hosting.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Composition.Runtime.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Composition.TypedParts.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Drawing.Common.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Formats.Asn1.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Memory.Data.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Runtime.Caching.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Security.Permissions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Text.Json.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\System.Windows.Extensions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ZstdSharp.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\cs\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\de\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\es\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\fr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\it\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ja\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ko\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pl\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\pt-BR\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\unix\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Data.SqlClient.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win-arm\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win-arm64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Data.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Models.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Services.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Services.pdb
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Models.pdb
-D:\Đồ án\SoundAudio\MyWebApp.Api\bin\Debug\net9.0\MyWebApp.Data.pdb
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.csproj.AssemblyReference.cache
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.GeneratedMSBuildEditorConfig.editorconfig
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.AssemblyInfoInputs.cache
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.AssemblyInfo.cs
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.csproj.CoreCompileInputs.cache
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.MvcApplicationPartsAssemblyInfo.cs
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.MvcApplicationPartsAssemblyInfo.cache
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\scopedcss\bundle\MyWebApp.Api.styles.css
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets.build.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets.development.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets\msbuild.MyWebApp.Api.Microsoft.AspNetCore.StaticWebAssets.props
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets\msbuild.MyWebApp.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets\msbuild.build.MyWebApp.Api.props
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.MyWebApp.Api.props
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.MyWebApp.Api.props
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\staticwebassets.pack.json
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.25C7B713.Up2Date
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\refint\MyWebApp.Api.dll
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.pdb
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\MyWebApp.Api.genruntimeconfig.cache
-D:\Đồ án\SoundAudio\MyWebApp.Api\obj\Debug\net9.0\ref\MyWebApp.Api.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/appsettings.Development.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/appsettings.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.staticwebassets.endpoints.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.exe
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.deps.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.runtimeconfig.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.pdb
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Azure.Core.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Azure.Identity.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/DnsClient.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Humanizer.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.JsonPatch.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Build.Locator.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.CSharp.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.Workspaces.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Data.SqlClient.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Design.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Relational.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.SqlServer.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Caching.Abstractions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Caching.Memory.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyModel.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Logging.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Identity.Client.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Identity.Client.Extensions.Msal.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.OpenApi.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.SqlServer.Server.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Win32.SystemEvents.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MongoDB.Bson.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MongoDB.Driver.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Mono.TextTemplating.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Newtonsoft.Json.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Newtonsoft.Json.Bson.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/SharpCompress.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Snappier.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.ClientModel.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.CodeDom.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.AttributedModel.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.Convention.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.Hosting.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.Runtime.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.TypedParts.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Configuration.ConfigurationManager.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Drawing.Common.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Formats.Asn1.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Memory.Data.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Runtime.Caching.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Security.Cryptography.ProtectedData.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Security.Permissions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Text.Json.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Windows.Extensions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ZstdSharp.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/Microsoft.Data.SqlClient.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Data.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Models.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Services.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Services.pdb
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Models.pdb
+D:/Đồ án/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Data.pdb
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.csproj.AssemblyReference.cache
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.GeneratedMSBuildEditorConfig.editorconfig
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.AssemblyInfoInputs.cache
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.AssemblyInfo.cs
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.csproj.CoreCompileInputs.cache
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.MvcApplicationPartsAssemblyInfo.cs
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.MvcApplicationPartsAssemblyInfo.cache
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/scopedcss/bundle/MyWebApp.Api.styles.css
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.build.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.development.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.build.endpoints.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.MyWebApp.Api.Microsoft.AspNetCore.StaticWebAssets.props
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.MyWebApp.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.build.MyWebApp.Api.props
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.MyWebApp.Api.props
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.MyWebApp.Api.props
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.pack.json
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.25C7B713.Up2Date
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/refint/MyWebApp.Api.dll
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.pdb
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.genruntimeconfig.cache
+D:/Đồ án/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/ref/MyWebApp.Api.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/appsettings.Development.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/appsettings.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.staticwebassets.endpoints.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.deps.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.runtimeconfig.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Api.pdb
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Azure.Core.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Azure.Identity.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/DnsClient.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Humanizer.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.JsonPatch.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.AspNetCore.OpenApi.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Bcl.AsyncInterfaces.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Build.Locator.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.CSharp.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.CSharp.Workspaces.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.Workspaces.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.CodeAnalysis.Workspaces.MSBuild.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Data.SqlClient.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Design.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.Relational.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.EntityFrameworkCore.SqlServer.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Caching.Abstractions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Caching.Memory.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.DependencyModel.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Logging.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Identity.Client.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Identity.Client.Extensions.Msal.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.OpenApi.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.SqlServer.Server.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Microsoft.Win32.SystemEvents.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MongoDB.Bson.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MongoDB.Driver.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Mono.TextTemplating.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Newtonsoft.Json.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Newtonsoft.Json.Bson.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/SharpCompress.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Snappier.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.ClientModel.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.CodeDom.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.AttributedModel.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.Convention.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.Hosting.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.Runtime.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Composition.TypedParts.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Configuration.ConfigurationManager.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Drawing.Common.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Formats.Asn1.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Memory.Data.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Runtime.Caching.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Security.Cryptography.ProtectedData.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Security.Permissions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Text.Json.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/System.Windows.Extensions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ZstdSharp.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/cs/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/de/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/es/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/fr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/it/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ja/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ko/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pl/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/pt-BR/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/ru/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/unix/lib/net6.0/Microsoft.Data.SqlClient.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/Microsoft.Data.SqlClient.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-arm/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-arm64/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-x64/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win-x86/native/Microsoft.Data.SqlClient.SNI.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/Microsoft.Win32.SystemEvents.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/unix/lib/net6.0/System.Drawing.Common.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Drawing.Common.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Runtime.Caching.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Security.Cryptography.ProtectedData.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/runtimes/win/lib/net6.0/System.Windows.Extensions.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Data.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Models.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Services.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Services.pdb
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Models.pdb
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/bin/Debug/net9.0/MyWebApp.Data.pdb
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.csproj.AssemblyReference.cache
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.GeneratedMSBuildEditorConfig.editorconfig
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.AssemblyInfoInputs.cache
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.AssemblyInfo.cs
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.csproj.CoreCompileInputs.cache
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.MvcApplicationPartsAssemblyInfo.cs
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.MvcApplicationPartsAssemblyInfo.cache
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.sourcelink.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/scopedcss/bundle/MyWebApp.Api.styles.css
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.build.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.development.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.build.endpoints.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.MyWebApp.Api.Microsoft.AspNetCore.StaticWebAssets.props
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.MyWebApp.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.build.MyWebApp.Api.props
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.MyWebApp.Api.props
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.MyWebApp.Api.props
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/staticwebassets.pack.json
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.25C7B713.Up2Date
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/refint/MyWebApp.Api.dll
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.pdb
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/MyWebApp.Api.genruntimeconfig.cache
+/Users/nguyenlam/BaiTapFlutter/SoundAudio/MyWebApp.Api/obj/Debug/net9.0/ref/MyWebApp.Api.dll
