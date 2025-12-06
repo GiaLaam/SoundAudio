@@ -18,12 +18,16 @@ namespace MyWebApp.Models
         [BsonElement("FilePath")]
         public string FilePath { get; set; } = null!;
 
-        [BsonElement("Time")]
+        [BsonElement("Duration")]
         public string? Duration { get; set; }
 
         [BsonElement("AuthorId")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string? AuthorId { get; set; }
+
+        [BsonElement("AlbumId")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? AlbumId { get; set; }
 
         [BsonElement("UploadeAt")]
         public DateTime UploadeAt { get; set; }

@@ -6,6 +6,7 @@ D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.Generat
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.AssemblyInfoInputs.cache
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.AssemblyInfo.cs
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.csproj.CoreCompileInputs.cache
+D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.sourcelink.json
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.dll
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\refint\MyWebApp.Models.dll
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.pdb

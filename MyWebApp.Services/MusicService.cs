@@ -38,6 +38,9 @@ namespace MyWebApp.Services
         public async Task<MusicFile?> GetByAsync(string id) =>
             await _collection.Find(m => m.Id == id).FirstOrDefaultAsync();
 
+        public async Task<List<MusicFile>> GetSongsByAlbum(string albumId) =>
+            await _collection.Find(m => m.AlbumId == albumId).ToListAsync();
+
         public async Task CreateAsync(MusicFile musicFile) =>
             await _collection.InsertOneAsync(musicFile);
 

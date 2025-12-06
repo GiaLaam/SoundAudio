@@ -25,6 +25,17 @@ namespace MyWebApp.Services
                 .ToListAsync();
         }
 
+        // ✅ Lấy tất cả playlist của user (không phân biệt OwnerType)
+        public async Task<List<Playlist>> GetAllByUserAsync(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+                return new List<Playlist>();
+
+            return await _playlistsCollection
+                .Find(p => p.OwnerId == userId)
+                .ToListAsync();
+        }
+
         // ✅ Lấy playlist theo ID
         public async Task<Playlist?> GetByIdAsync(string id)
         {

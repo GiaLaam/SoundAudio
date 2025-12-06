@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Đồ án\\SoundAudio\\MyWebApp.Mvc\\MyWebApp.Mvc.csproj": {}
+    "D:\\Đồ án\\SoundAudio\\MyWebApp.MVC\\MyWebApp.Mvc.csproj": {}
   },
   "projects": {
     "D:\\Đồ án\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj": {
@@ -166,14 +166,14 @@
         }
       }
     },
-    "D:\\Đồ án\\SoundAudio\\MyWebApp.Mvc\\MyWebApp.Mvc.csproj": {
+    "D:\\Đồ án\\SoundAudio\\MyWebApp.MVC\\MyWebApp.Mvc.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Đồ án\\SoundAudio\\MyWebApp.Mvc\\MyWebApp.Mvc.csproj",
+        "projectUniqueName": "D:\\Đồ án\\SoundAudio\\MyWebApp.MVC\\MyWebApp.Mvc.csproj",
         "projectName": "MyWebApp.Mvc",
-        "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Mvc\\MyWebApp.Mvc.csproj",
+        "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.MVC\\MyWebApp.Mvc.csproj",
         "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Mvc\\obj\\",
+        "outputPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.MVC\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -230,6 +230,10 @@
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.15.0, )"
             }
           },
           "imports": [
@@ -310,9 +314,21 @@
               "target": "Package",
               "version": "[2.3.0, )"
             },
+            "Microsoft.IdentityModel.JsonWebTokens": {
+              "target": "Package",
+              "version": "[8.14.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.14.0, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[3.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.14.0, )"
             }
           },
           "imports": [

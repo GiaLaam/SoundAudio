@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="auth-logo">
+            <i class="fas fa-music"></i> SoundAudio
+        </div>
+        <h1 class="auth-title">Đăng nhập</h1>
+        
+        <form asp-controller="Home" asp-action="Login" method="post">
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="name@domain.com" required />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Mật khẩu</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required />
+            </div>
+            
+            @if (ViewBag.Error != null)
+            {
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> @ViewBag.Error
+                </div>
+            }
+            
+            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+        </form>
+        
+        <div class="divider">
+            <span>hoặc</span>
+        </div>
+        
+        <div class="auth-footer">
+            Chưa có tài khoản? <a href="/Home/Register">Đăng ký ngay</a>
+        </div>
+    </div>
+</div>

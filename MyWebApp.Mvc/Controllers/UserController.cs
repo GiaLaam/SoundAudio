@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApp.Models;
 using MyWebApp.Services;
+using MyWebApp.Mvc.Services;
 using Microsoft.AspNetCore.Identity;
 
 namespace MyWebApp.Controllers
@@ -9,26 +10,32 @@ namespace MyWebApp.Controllers
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
-        private readonly MusicService _musicService;
-        private readonly PlaylistService _playlistService;
+        private readonly MusicApiService _musicApiService;
+        private readonly PlaylistApiService _playlistApiService;
+        private readonly AlbumApiService _albumApiService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly PlaylistService _playlistService; // Direct DB access
 
         public UserController(
             ILogger<UserController> logger,
-            MusicService musicService,
-            PlaylistService playlistService,
+            MusicApiService musicApiService,
+            PlaylistApiService playlistApiService,
+            AlbumApiService albumApiService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            PlaylistService playlistService)
         {
             _logger = logger;
-            _musicService = musicService;
-            _playlistService = playlistService;
+            _musicApiService = musicApiService;
+            _playlistApiService = playlistApiService;
+            _albumApiService = albumApiService;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _playlistService = playlistService;
         }
 
         [HttpPost]
@@ -65,68 +72,70 @@ namespace MyWebApp.Controllers
                 return RedirectToAction("DangNhap");
 
             var ownerId = _userManager.GetUserId(User);
-            var musicFiles = await _musicService.GetAllAsync();
-            var playlists = await _playlistService.GetByOwnerAsync(ownerId, "user");
+            var musicFiles = await _musicApiService.GetAllAsync();
+            var playlists = await _playlistApiService.GetByOwnerAsync(ownerId, "user");
+            var albums = await _albumApiService.GetAllAsync();
 
             ViewBag.IsLoggedIn = true;
             ViewBag.ViewMode = "Default";
             ViewBag.Playlists = playlists;
+            ViewBag.Albums = albums;
 
             return View(musicFiles);
         }
 
+        [Authorize]
         public async Task<IActionResult> Profile()
         {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("DangNhap");
-
-            var ownerId = _userManager.GetUserId(User);
-            var user = await _userManager.GetUserAsync(User);
-            var musicFiles = await _musicService.GetAllAsync();
-            var playlists = await _playlistService.GetByOwnerAsync(ownerId, "user");
-
-            ViewBag.ViewMode = "Profile";
-            ViewBag.IsLoggedIn = true;
-            ViewBag.UserData = user;
-            ViewBag.Playlists = playlists;
-
-            return View("NguoiDung", musicFiles);
+            return View();
         }
 
+        [Authorize]
         [HttpPost]
-        public async Task<IActionResult> UpdateProfile(string userId, string name, string email, string currentPassword, string newPassword, string confirmPassword)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfile(string fullName, string currentPassword, string newPassword, string confirmNewPassword)
         {
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = await _userManager.GetUserAsync(User);
             if (user == null)
-                return Json(new { success = false, message = "Không tìm thấy người dùng." });
-
-            user.Email = email;
-            user.UserName = email;
-            user.FullName = name; // Nếu bạn có trường FullName
-
-            IdentityResult result;
-
-            if (!string.IsNullOrWhiteSpace(newPassword))
             {
-                if (string.IsNullOrWhiteSpace(currentPassword))
-                    return Json(new { success = false, message = "Vui lòng nhập mật khẩu hiện tại." });
-
-                if (newPassword != confirmPassword)
-                    return Json(new { success = false, message = "Mật khẩu xác nhận không khớp." });
-
-                result = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
-                if (!result.Succeeded)
-                    return Json(new { success = false, message = string.Join(", ", result.Errors.Select(e => e.Description)) });
+                ViewBag.Error = "Người dùng không tồn tại.";
+                return View("Profile");
             }
 
-            result = await _userManager.UpdateAsync(user);
+            // Update full name
+            if (!string.IsNullOrEmpty(fullName))
+            {
+                user.FullName = fullName;
+            }
+
+            // Update password if provided
+            if (!string.IsNullOrEmpty(currentPassword) && !string.IsNullOrEmpty(newPassword))
+            {
+                if (newPassword != confirmNewPassword)
+                {
+                    ViewBag.Error = "Mật khẩu mới không khớp!";
+                    return View("Profile");
+                }
+
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, currentPassword, newPassword);
+                if (!changePasswordResult.Succeeded)
+                {
+                    ViewBag.Error = "Mật khẩu hiện tại không đúng hoặc mật khẩu mới không hợp lệ!";
+                    return View("Profile");
+                }
+            }
+
+            var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                await _signInManager.RefreshSignInAsync(user);
-                return Json(new { success = true });
+                ViewBag.Success = "Cập nhật thông tin thành công!";
+            }
+            else
+            {
+                ViewBag.Error = "Có lỗi xảy ra khi cập nhật thông tin.";
             }
 
-            return Json(new { success = false, message = string.Join(", ", result.Errors.Select(e => e.Description)) });
+            return View("Profile");
         }
 
 
@@ -152,8 +161,8 @@ namespace MyWebApp.Controllers
                     ViewBag.Error = "Mật khẩu không khớp.";
                     ViewBag.ViewMode = "Profile";
                     ViewBag.UserData = user;
-                    var musicFiles = await _musicService.GetAllAsync();
-                    var playlists = await _playlistService.GetByOwnerAsync(user.Id, "user");
+                    var musicFiles = await _musicApiService.GetAllAsync();
+                    var playlists = await _playlistApiService.GetByOwnerAsync(user.Id, "user");
                     ViewBag.Playlists = playlists;
                     return View("NguoiDung", musicFiles);
                 }
@@ -168,8 +177,8 @@ namespace MyWebApp.Controllers
                     ViewBag.Error = "Lỗi khi đổi mật khẩu: " + string.Join(", ", result.Errors.Select(e => e.Description));
                     ViewBag.ViewMode = "Profile";
                     ViewBag.UserData = user;
-                    var musicFiles = await _musicService.GetAllAsync();
-                    var playlists = await _playlistService.GetByOwnerAsync(user.Id, "user");
+                    var musicFiles = await _musicApiService.GetAllAsync();
+                    var playlists = await _playlistApiService.GetByOwnerAsync(user.Id, "user");
                     ViewBag.Playlists = playlists;
                     return View("NguoiDung", musicFiles);
                 }
@@ -187,8 +196,8 @@ namespace MyWebApp.Controllers
                 ViewBag.Error = "Lỗi cập nhật thông tin: " + string.Join(", ", updateResult.Errors.Select(e => e.Description));
                 ViewBag.ViewMode = "Profile";
                 ViewBag.UserData = user;
-                var musicFiles = await _musicService.GetAllAsync();
-                var playlists = await _playlistService.GetByOwnerAsync(user.Id, "user");
+                var musicFiles = await _musicApiService.GetAllAsync();
+                var playlists = await _playlistApiService.GetByOwnerAsync(user.Id, "user");
                 ViewBag.Playlists = playlists;
                 return View("NguoiDung", musicFiles);
             }
@@ -197,7 +206,7 @@ namespace MyWebApp.Controllers
 
         public async Task<IActionResult> Search(string query)
         {
-            var musicFiles = await _musicService.GetAllAsync();
+            var musicFiles = await _musicApiService.GetAllAsync();
             var results = string.IsNullOrEmpty(query)
                 ? musicFiles
                 : musicFiles.Where(m => m.FileName.Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -209,7 +218,7 @@ namespace MyWebApp.Controllers
             {
                 ViewBag.IsLoggedIn = true;
                 var ownerId = _userManager.GetUserId(User);
-                ViewBag.Playlists = await _playlistService.GetByOwnerAsync(ownerId, "user");
+                ViewBag.Playlists = await _playlistApiService.GetByOwnerAsync(ownerId, "user");
                 return View("~/Views/User/NguoiDung.cshtml", results);
             }
             else
@@ -219,20 +228,46 @@ namespace MyWebApp.Controllers
             }
         }
 
+        [Authorize]
         public async Task<IActionResult> Playlist()
         {
-            if (!User.Identity.IsAuthenticated)
-                return RedirectToAction("DangNhap");
+            var ownerId = _userManager.GetUserId(User);
+            // Use direct database access instead of API
+            var playlists = await _playlistService.GetByOwnerAsync(ownerId, "user");
+            return View(playlists);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePlaylist(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                TempData["Error"] = "Tên playlist không được để trống.";
+                return RedirectToAction("Playlist");
+            }
 
             var ownerId = _userManager.GetUserId(User);
-            var playlists = await _playlistService.GetByOwnerAsync(ownerId, "user");
-            var musicFiles = await _musicService.GetAllAsync();
+            var playlist = new Playlist
+            {
+                Name = name,
+                OwnerId = ownerId,
+                OwnerType = "user",
+                MusicIds = new List<string>()
+            };
 
-            ViewBag.ViewMode = "Playlist";
-            ViewBag.IsLoggedIn = true;
-            ViewBag.Playlists = playlists;
+            try
+            {
+                await _playlistApiService.CreateAsync(playlist);
+                TempData["Success"] = "Tạo playlist thành công!";
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Có lỗi xảy ra: {ex.Message}";
+            }
 
-            return View("NguoiDung", musicFiles);
+            return RedirectToAction("Playlist");
         }
 
         [HttpPost]
@@ -249,14 +284,14 @@ namespace MyWebApp.Controllers
             {
                 if (!string.IsNullOrEmpty(playlistId))
                 {
-                    var playlist = await _playlistService.GetByIdAsync(playlistId);
+                    var playlist = await _playlistApiService.GetByIdAsync(playlistId);
                     if (playlist == null || playlist.OwnerId != ownerId || playlist.OwnerType != "user")
                         return Json(new { success = false, message = "Playlist không thuộc về bạn!" });
 
                     if (!playlist.MusicIds.Contains(songId))
                     {
                         playlist.MusicIds.Add(songId);
-                        await _playlistService.UpdateAsync(playlist);
+                        await _playlistApiService.UpdateAsync(playlist);
                     }
 
                     return Json(new { success = true, message = "Đã thêm bài hát vào playlist!" });
@@ -271,7 +306,7 @@ namespace MyWebApp.Controllers
                         MusicIds = new List<string> { songId }
                     };
 
-                    await _playlistService.CreateAsync(newPlaylist);
+                    await _playlistApiService.CreateAsync(newPlaylist);
 
                     return Json(new { success = true, message = "Đã tạo playlist mới và thêm bài hát!" });
                 }
@@ -288,12 +323,12 @@ namespace MyWebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateName(string id, string newName)
         {
-            var playlist = await _playlistService.GetByIdAsync(id);
+            var playlist = await _playlistApiService.GetByIdAsync(id);
             if (playlist == null)
                 return Json(new { success = false, message = "Playlist không tồn tại." });
 
             playlist.Name = newName;
-            await _playlistService.UpdateAsync(playlist);
+            await _playlistApiService.UpdateAsync(playlist);
 
             return Json(new { success = true });
         }

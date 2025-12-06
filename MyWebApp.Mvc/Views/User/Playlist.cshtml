@@ -1,0 +1,122 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model List<MyWebApp.Models.Playlist>
+@{
+    ViewData["Title"] = "Playlist của tôi";
+    var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
+}
+
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Playlist của tôi</h2>
+        <button class="primary-btn" onclick="openCreatePlaylistModal()">
+            <i class="fas fa-plus"></i> Tạo playlist
+        </button>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="grid">
+            @foreach (var playlist in Model)
+            {
+                <div class="card" onclick="window.location.href='/User/PlaylistDetails/@playlist.Id'">
+                    <div class="card-image">
+                        <div class="card-placeholder">
+                            <i class="fas fa-list-ul"></i>
+                        </div>
+                        <button class="play-btn"><i class="fas fa-play"></i></button>
+                    </div>
+                    <div class="card-title">@playlist.Name</div>
+                    <div class="card-subtitle">@playlist.MusicIds.Count bài hát</div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 60px 20px;">
+            <i class="fas fa-list-ul" style="font-size: 64px; color: var(--spotify-light-gray); margin-bottom: 20px;"></i>
+            <h3 style="color: var(--spotify-light-gray); margin-bottom: 10px;">Chưa có playlist nào</h3>
+            <p style="color: var(--spotify-light-gray); margin-bottom: 30px;">Tạo playlist đầu tiên của bạn ngay!</p>
+            <button class="primary-btn" onclick="openCreatePlaylistModal()">
+                <i class="fas fa-plus"></i> Tạo playlist
+            </button>
+        </div>
+    }
+</section>
+
+<!-- Create Playlist Modal -->
+<div id="createPlaylistModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Tạo playlist mới</h3>
+            <button class="modal-close" onclick="closeCreatePlaylistModal()">&times;</button>
+        </div>
+        <form id="createPlaylistForm" onsubmit="return createPlaylist(event)">
+            <div class="form-group">
+                <label>Tên playlist</label>
+                <input type="text" id="playlistName" name="name" required placeholder="Nhập tên playlist" />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeCreatePlaylistModal()">Hủy</button>
+                <button type="submit" class="primary-btn">Tạo</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openCreatePlaylistModal() {
+            document.getElementById('createPlaylistModal').style.display = 'flex';
+        }
+
+        function closeCreatePlaylistModal() {
+            document.getElementById('createPlaylistModal').style.display = 'none';
+            document.getElementById('createPlaylistForm').reset();
+        }
+
+        function createPlaylist(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('playlistName').value.trim();
+            if (!name) {
+                alert('Vui lòng nhập tên playlist');
+                return false;
+            }
+
+            $.ajax({
+                url: '@Configuration["ApiSettings:BaseUrl"]/api/playlist/create',
+                method: 'POST',
+                contentType: 'application/json',
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: JSON.stringify({
+                    name: name
+                }),
+                success: function(response) {
+                    alert('Tạo playlist thành công!');
+                    closeCreatePlaylistModal();
+                    location.reload(); // Refresh to show new playlist
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error creating playlist:', error);
+                    console.error('Response:', xhr.responseText);
+                    alert('Lỗi khi tạo playlist: ' + (xhr.responseJSON?.message || error));
+                }
+            });
+
+            return false;
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('createPlaylistModal');
+            if (event.target == modal) {
+                closeCreatePlaylistModal();
+            }
+        }
+    </script>
+}
+

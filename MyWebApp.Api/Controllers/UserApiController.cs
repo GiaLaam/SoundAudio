@@ -10,6 +10,7 @@ namespace MyWebApp.Controllers.Api
     [Route("api/user")]
     public class UserApiController : ControllerBase
     {
+        private readonly JwtService _jwtService;
         private readonly MusicService _musicService;
         private readonly PlaylistService _playlistService;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -21,13 +22,15 @@ namespace MyWebApp.Controllers.Api
             PlaylistService playlistService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            JwtService jwtService)
         {
             _musicService = musicService;
             _playlistService = playlistService;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _jwtService = jwtService;
         }
 
         /// <summary>
@@ -47,7 +50,8 @@ namespace MyWebApp.Controllers.Api
                 return NotFound(new { message = "Không tìm thấy người dùng." });
 
             var roles = await _userManager.GetRolesAsync(user);
-            return Ok(new { success = true, user, roles });
+            var token = await _jwtService.GenerateToken(user);
+            return Ok(new { success = true, user, roles, token });
         }
 
         [HttpPost("register")]

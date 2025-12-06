@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using MyWebApp.Models;
 using MyWebApp.Services;
+using MyWebApp.Mvc.Services;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -12,22 +13,26 @@ namespace MyWebApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly MusicService _musicService;
-        private readonly PlaylistService _playlistService;
+        private readonly MusicApiService _musicApiService;
+        private readonly PlaylistApiService _playlistApiService;
+        private readonly AlbumApiService _albumApiService;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        
         public HomeController(
             ILogger<HomeController> logger,
-            MusicService musicService,
-            PlaylistService playlistService,
+            MusicApiService musicApiService,
+            PlaylistApiService playlistApiService,
+            AlbumApiService albumApiService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager)
         {
             _logger = logger;
-            _musicService = musicService;
-            _playlistService = playlistService;
+            _musicApiService = musicApiService;
+            _playlistApiService = playlistApiService;
+            _albumApiService = albumApiService;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -35,8 +40,10 @@ namespace MyWebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var musicFiles = await _musicService.GetAllAsync();
+            var musicFiles = await _musicApiService.GetAllAsync();
+            var albums = await _albumApiService.GetAllAsync();
             ViewBag.IsLoggedIn = User.Identity.IsAuthenticated;
+            ViewBag.Albums = albums;
             return View(musicFiles);
         }
 
@@ -220,7 +227,7 @@ namespace MyWebApp.Controllers
 
         public async Task<IActionResult> Search(string query)
         {
-            var musicFiles = await _musicService.GetAllAsync();
+            var musicFiles = await _musicApiService.GetAllAsync();
             var results = string.IsNullOrEmpty(query)
                 ? musicFiles
                 : musicFiles.Where(m => m.NameSong.Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
@@ -232,7 +239,7 @@ namespace MyWebApp.Controllers
             {
                 ViewBag.IsLoggedIn = true;
                 var ownerId = _userManager.GetUserId(User);
-                ViewBag.Playlists = await _playlistService.GetByOwnerAsync(ownerId, "user");
+                ViewBag.Playlists = await _playlistApiService.GetByOwnerAsync(ownerId, "user");
                 return View("~/Views/User/NguoiDung.cshtml", results);
             }
             else
@@ -248,6 +255,113 @@ namespace MyWebApp.Controllers
             var isLoggedIn = User.Identity.IsAuthenticated;
             var userId = isLoggedIn ? _userManager.GetUserId(User) : null;
             return Json(new { isLoggedIn, userId });
+        }
+
+        // New Login/Register actions for new views
+        [HttpGet]
+        public IActionResult Login()
+        {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string email, string password)
+        {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                ViewBag.Error = "Vui lòng nhập đầy đủ email và mật khẩu.";
+                return View();
+            }
+
+            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: true, lockoutOnFailure: false);
+
+            if (result.Succeeded)
+            {
+                var user = await _userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    ViewBag.Error = "Người dùng không tồn tại.";
+                    return View();
+                }
+
+                // Check role and redirect
+                if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))
+                    return RedirectToAction("Dashboard", "Admin");
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Error = "Sai email hoặc mật khẩu!";
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(string fullName, string email, string password, string confirmPassword)
+        {
+            if (string.IsNullOrEmpty(fullName) || string.IsNullOrEmpty(email) || 
+                string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
+            {
+                ViewBag.Error = "Vui lòng điền đầy đủ thông tin.";
+                return View();
+            }
+
+            if (password != confirmPassword)
+            {
+                ViewBag.Error = "Mật khẩu không khớp!";
+                return View();
+            }
+
+            var existingUser = await _userManager.FindByEmailAsync(email);
+            if (existingUser != null)
+            {
+                ViewBag.Error = "Email đã được sử dụng!";
+                return View();
+            }
+
+            var user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email,
+                FullName = fullName
+            };
+
+            var result = await _userManager.CreateAsync(user, password);
+
+            if (result.Succeeded)
+            {
+                // Assign default role (User)
+                await _userManager.AddToRoleAsync(user, SD.Role_User);
+                
+                ViewBag.Success = "Đăng ký thành công! Vui lòng đăng nhập.";
+                return View();
+            }
+
+            ViewBag.Error = string.Join(", ", result.Errors.Select(e => e.Description));
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

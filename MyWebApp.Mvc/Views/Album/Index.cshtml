@@ -1,0 +1,95 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model List<MyWebApp.Models.Album>
+@{
+    ViewData["Title"] = "Danh Sách Album";
+    var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white">
+            <i class="fas fa-compact-disc me-2"></i>Danh Sách Album
+        </h2>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i> Chưa có album nào trong hệ thống.
+        </div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var album in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 shadow-sm album-card">
+                        <a asp-controller="Album" asp-action="Details" asp-route-id="@album.Id" class="text-decoration-none">
+                            @if (!string.IsNullOrEmpty(album.ImageUrl))
+                            {
+                                <img src="@(apiBaseUrl + album.ImageUrl)" class="card-img-top album-img" alt="@album.Name" />
+                            }
+                            else
+                            {
+                                <div class="card-img-top album-img-placeholder d-flex align-items-center justify-content-center bg-secondary">
+                                    <i class="fas fa-compact-disc fa-4x text-white-50"></i>
+                                </div>
+                            }
+                            <div class="card-body">
+                                <h5 class="card-title text-white">@album.Name</h5>
+                                <p class="card-text text-muted">
+                                    <small>
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        @album.CreatedAt.ToString("dd/MM/yyyy")
+                                    </small>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .album-card {
+        background: linear-gradient(145deg, #2d2d2d, #1a1a1a);
+        border: 1px solid #3a3a3a;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .album-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        border-color: #4CAF50;
+    }
+
+    .album-img {
+        height: 250px;
+        object-fit: cover;
+        border-bottom: 2px solid #3a3a3a;
+    }
+
+    .album-img-placeholder {
+        height: 250px;
+        border-bottom: 2px solid #3a3a3a;
+    }
+
+    .album-card a {
+        color: inherit;
+    }
+
+    .album-card .card-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .album-card:hover .card-title {
+        color: #4CAF50 !important;
+    }
+</style>

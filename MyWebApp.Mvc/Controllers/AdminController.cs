@@ -1,162 +1,107 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApp.Models;
-using MyWebApp.Services;
+using MyWebApp.Mvc.Services;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MongoDB.Bson;
 
 namespace MyWebApp.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly MusicService _musicService;
-        private readonly LyricService _lyricService;
+        private readonly MusicApiService _musicApiService;
+        private readonly AlbumApiService _albumApiService;
 
-
-        public AdminController(MusicService musicService, LyricService lyricService)
+        public AdminController(MusicApiService musicApiService, AlbumApiService albumApiService)
         {
-            _musicService = musicService;
-            _lyricService = lyricService;
+            _musicApiService = musicApiService;
+            _albumApiService = albumApiService;
         }
 
         public async Task<IActionResult> Dashboard()
         {
-            ViewBag.Role = "Admin";
-            var musicFiles = await _musicService.GetAllAsync();
-            return View(musicFiles);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> DeleteSong(string id)
-        {
-            var ok = await _musicService.DeleteAsync(id);
+            ViewBag.TotalSongs = (await _musicApiService.GetAllAsync())?.Count ?? 0;
+            ViewBag.TotalAlbums = (await _albumApiService.GetAllAsync())?.Count ?? 0;
+            ViewBag.TotalUsers = 0; // TODO: Implement user count
+            ViewBag.TotalPlaylists = 0; // TODO: Implement playlist count
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> ManageMusic()
         {
-            return View();
+            var music = await _musicApiService.GetAllAsync();
+            return View(music);
+        }
+
+        public async Task<IActionResult> ManageAlbum()
+        {
+            var albums = await _albumApiService.GetAllAsync();
+            return View(albums);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(string nameSong, IFormFile file, IFormFile? imageFile, IFormFile? lrcFile)
+        public async Task<IActionResult> AddMusic(string nameSong, IFormFile musicFile, IFormFile? imageFile)
         {
-            if (file == null || file.Length == 0)
+            if (musicFile == null || musicFile.Length == 0)
             {
-                ViewBag.Error = "Vui lòng chọn tệp nhạc.";
-                return View();
+                ViewBag.Error = "File nhạc không được để trống.";
+                return RedirectToAction("ManageMusic");
+            }
+
+            if (string.IsNullOrWhiteSpace(nameSong))
+            {
+                ViewBag.Error = "Tên bài hát không được để trống.";
+                return RedirectToAction("ManageMusic");
             }
 
             try
             {
-                var fileName = Path.GetFileNameWithoutExtension(file.FileName).Replace(" ", "").ToLower() + ".mp3";
-                var gridFsId = await _musicService.UploadToMongoDBAsync(file, fileName);
-
-                var musicFile = new MusicFile
-                {
-                    NameSong = nameSong,
-                    FileName = fileName,
-                    FilePath = $"/api/music/{fileName}",
-                    UploadeAt = DateTime.Now,
-                    GridFSFileId = gridFsId
-                };
+                using var musicStream = musicFile.OpenReadStream();
+                Stream? imageStream = null;
+                string? imageFileName = null;
 
                 if (imageFile != null && imageFile.Length > 0)
                 {
-                    var ext = Path.GetExtension(imageFile.FileName).ToLower();
-                    if (ext == ".jpg" || ext == ".jpeg" || ext == ".png")
-                    {
-                        var imageName = Path.GetFileNameWithoutExtension(imageFile.FileName).Replace(" ", "").ToLower() + ext;
-                        var imageBytes = await ReadBytesAsync(imageFile);
-                        var imageId = await _musicService.UploadImageAsync(imageBytes, imageName);
-                        musicFile.ImageGridFsId = imageId;
-                        musicFile.ImageUrl = $"/api/images/{imageName}";
-                    }
+                    imageStream = imageFile.OpenReadStream();
+                    imageFileName = imageFile.FileName;
                 }
 
-                await _musicService.CreateAsync(musicFile);
+                var result = await _musicApiService.UploadAsync(
+                    nameSong, 
+                    musicStream, 
+                    musicFile.FileName, 
+                    imageStream, 
+                    imageFileName);
 
-                // ✅ nếu có lời thì lưu vào DB
-                if (lrcFile != null && lrcFile.Length > 0 && lrcFile.FileName.EndsWith(".lrc"))
+                imageStream?.Dispose();
+
+                if (result != null)
                 {
-                    using var reader = new StreamReader(lrcFile.OpenReadStream());
-                    var content = await reader.ReadToEndAsync();
-
-                    var lyric = new Lyric
-                    {
-                        MusicIds = ObjectId.Parse(musicFile.Id),
-                        Content = content
-                    };
-
-                    await _lyricService.CreateAsync(lyric); // ✅ lưu vào MongoDB
+                    TempData["Success"] = "Thêm bài hát thành công!";
                 }
-
-                ViewBag.Message = "Đã thêm bài hát thành công!";
+                else
+                {
+                    TempData["Error"] = "Thêm bài hát thất bại.";
+                }
             }
             catch (Exception ex)
             {
-                ViewBag.Error = $"Lỗi khi tải lên: {ex.Message}";
+                TempData["Error"] = $"Lỗi: {ex.Message}";
             }
 
-            return View();
+            return RedirectToAction("ManageMusic");
         }
 
-
-        [HttpGet("Admin/ChiTiet/{id}")]
-        public async Task<IActionResult> ChiTiet(string id)
+        [HttpPost]
+        public async Task<IActionResult> DeleteMusic(string id)
         {
-            var song = await _musicService.GetByAsync(id);
-            if (song == null)
+            var result = await _musicApiService.DeleteAsync(id);
+            if (result)
             {
-                return NotFound();
+                return Ok();
             }
-
-            // Lấy lời bài hát nếu có
-            var lyric = await _lyricService.GetByMusicIdAsync(song.Id);
-            ViewBag.Lyric = lyric?.Content ?? "Chưa có lời bài hát.";
-
-            return View(song);
+            return BadRequest();
         }
-
-        [HttpPost("Admin/UpdateSong")]
-        public async Task<IActionResult> UpdateSong(string id, string NameSong, IFormFile? ImageFile)
-        {
-            var song = await _musicService.GetByAsync(id);
-            if (song == null) return NotFound();
-
-            song.NameSong = NameSong;
-
-            if (ImageFile != null && ImageFile.Length > 0)
-            {
-                var ext = Path.GetExtension(ImageFile.FileName).ToLower();
-                if (ext == ".jpg" || ext == ".jpeg" || ext == ".png")
-                {
-                    var imageName = Path.GetFileNameWithoutExtension(ImageFile.FileName).Replace(" ", "").ToLower() + ext;
-                    byte[] imageBytes;
-                    using (var ms = new MemoryStream())
-                    {
-                        await ImageFile.CopyToAsync(ms);
-                        imageBytes = ms.ToArray();
-                    }
-                    var imageId = await _musicService.UploadImageAsync(imageBytes, imageName);
-                    song.ImageGridFsId = imageId;
-                    song.ImageUrl = $"/api/images/{imageName}";
-                }
-            }
-
-            await _musicService.UpdateAsync(song.Id, song); // Cần thêm phương thức Update trong MusicService
-            return RedirectToAction("ChiTiet", new { id = song.Id });
-        }
-
-        private async Task<byte[]> ReadBytesAsync(IFormFile file)
-        {
-            using var ms = new MemoryStream();
-            await file.CopyToAsync(ms);
-            return ms.ToArray();
-        }
-
     }
 }

@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="auth-logo">
+            <i class="fas fa-music"></i> SoundAudio
+        </div>
+        <h1 class="auth-title">Đăng ký</h1>
+        
+        <form asp-controller="Home" asp-action="Register" method="post">
+            <div class="form-group">
+                <label class="form-label">Họ và tên</label>
+                <input type="text" name="fullName" class="form-control" placeholder="Nguyễn Văn A" required />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" placeholder="name@domain.com" required />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Mật khẩu</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required />
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Xác nhận mật khẩu</label>
+                <input type="password" name="confirmPassword" class="form-control" placeholder="••••••••" required />
+            </div>
+            
+            @if (ViewBag.Error != null)
+            {
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i> @ViewBag.Error
+                </div>
+            }
+            
+            @if (ViewBag.Success != null)
+            {
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i> @ViewBag.Success
+                </div>
+            }
+            
+            <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+        </form>
+        
+        <div class="auth-footer">
+            Đã có tài khoản? <a href="/Home/Login">Đăng nhập</a>
+        </div>
+    </div>
+</div>

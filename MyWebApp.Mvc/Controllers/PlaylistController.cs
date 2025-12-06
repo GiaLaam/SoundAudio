@@ -1,18 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using MyWebApp.Services;
+using MyWebApp.Mvc.Services;
 
 namespace MyWebApp.Controllers
 {
     [Route("Playlist")]
     public class PlaylistController : Controller
     {
-        private readonly PlaylistService _playlistService;
-        private readonly MusicService _musicService;
+        private readonly PlaylistApiService _playlistApiService;
+        private readonly MusicApiService _musicApiService;
 
-        public PlaylistController(PlaylistService playlistService, MusicService musicService)
+        public PlaylistController(PlaylistApiService playlistApiService, MusicApiService musicApiService)
         {
-            _playlistService = playlistService ?? throw new ArgumentNullException(nameof(playlistService));
-            _musicService = musicService ?? throw new ArgumentNullException(nameof(musicService));
+            _playlistApiService = playlistApiService ?? throw new ArgumentNullException(nameof(playlistApiService));
+            _musicApiService = musicApiService ?? throw new ArgumentNullException(nameof(musicApiService));
         }
 
         [HttpGet("GetMusicFilesByPlaylistId")]
@@ -25,13 +26,13 @@ namespace MyWebApp.Controllers
 
             try
             {
-                var playlist = await _playlistService.GetByIdAsync(id);
+                var playlist = await _playlistApiService.GetByIdAsync(id);
                 if (playlist == null || playlist.MusicIds == null || !playlist.MusicIds.Any())
                 {
                     return Json(new { success = false, message = "Playlist không tồn tại hoặc trống." });
                 }
 
-                var allSongs = await _musicService.GetAllAsync();
+                var allSongs = await _musicApiService.GetAllAsync();
                 var songs = allSongs
                     .Where(m => playlist.MusicIds.Contains(m.Id))
                     .Select(m => new
@@ -61,7 +62,12 @@ namespace MyWebApp.Controllers
 
             try
             {
-                var updated = await _playlistService.UpdateNameAsync(id, newName.Trim());
+                var playlist = await _playlistApiService.GetByIdAsync(id);
+                if (playlist == null)
+                    return Json(new { success = false, message = "Playlist không tồn tại." });
+
+                playlist.Name = newName.Trim();
+                await _playlistApiService.UpdateAsync(playlist);
                 return Json(new { success = true, message = "Đã đổi tên playlist thành công." });
             }
             catch (Exception)
@@ -86,13 +92,13 @@ namespace MyWebApp.Controllers
 
             try
             {
-                var playlist = await _playlistService.GetByIdAsync(id);
+                var playlist = await _playlistApiService.GetByIdAsync(id);
                 if (playlist == null)
                 {
                     return NotFound();
                 }
 
-                var allSongs = await _musicService.GetAllAsync();
+                var allSongs = await _musicApiService.GetAllAsync();
                 var songs = (playlist.MusicIds != null)
                     ? allSongs.Where(m => playlist.MusicIds.Contains(m.Id)).ToList()
                     : new List<MyWebApp.Models.MusicFile>();
@@ -118,8 +124,14 @@ namespace MyWebApp.Controllers
             if (string.IsNullOrEmpty(playlistId) || string.IsNullOrEmpty(songId))
                 return Json(new { success = false, message = "Thiếu thông tin" });
 
-            var result = await _playlistService.RemoveSongFromPlaylistAsync(playlistId, songId);
-            return Json(new { success = result });
+            var playlist = await _playlistApiService.GetByIdAsync(playlistId);
+            if (playlist == null)
+                return Json(new { success = false, message = "Playlist không tồn tại" });
+
+            playlist.MusicIds.Remove(songId);
+            await _playlistApiService.UpdateAsync(playlist);
+            
+            return Json(new { success = true });
         }
         
         [HttpPost("Delete")]
@@ -131,7 +143,7 @@ namespace MyWebApp.Controllers
             }
             try
             {
-                await _playlistService.DeleteAsync(id);
+                await _playlistApiService.DeleteAsync(id);
                 return Json(new { success = true });
             }
             catch (Exception)

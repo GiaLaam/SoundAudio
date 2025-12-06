@@ -48,7 +48,6 @@ namespace MyWebApp.Controllers.Api
         /// </summary>
         [HttpPost("add")]
         [Consumes("multipart/form-data")]
-        [AllowAnonymous]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Add([FromForm] UploadMusicRequest request)
@@ -121,7 +120,6 @@ namespace MyWebApp.Controllers.Api
         /// </summary>
         [HttpPut("update/{id}")]
         [Consumes("multipart/form-data")]
-        [AllowAnonymous]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> UpdateSong(string id, [FromForm] UpdateMusicRequest request)

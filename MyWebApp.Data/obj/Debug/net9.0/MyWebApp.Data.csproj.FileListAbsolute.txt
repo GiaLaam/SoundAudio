@@ -9,6 +9,7 @@ D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.Data.GeneratedMS
 D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.Data.AssemblyInfoInputs.cache
 D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.Data.AssemblyInfo.cs
 D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.Data.csproj.CoreCompileInputs.cache
+D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.Data.sourcelink.json
 D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.89A98C64.Up2Date
 D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\MyWebApp.Data.dll
 D:\Đồ án\SoundAudio\MyWebApp.Data\obj\Debug\net9.0\refint\MyWebApp.Data.dll

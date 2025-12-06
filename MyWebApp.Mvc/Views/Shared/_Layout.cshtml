@@ -1,92 +1,180 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.UserManager<MyWebApp.Models.ApplicationUser> UserManager
+@inject IConfiguration Configuration
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SoundAudio</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MyWebApp.styles.css" asp-append-version="true" />
+    <title>@ViewData["Title"] - SoundAudio</title>
+    <link rel="stylesheet" href="~/css/main.css?v=@DateTime.Now.Ticks" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-    <link rel="icon" href="~/MyWebApp/images/logo.png" type="image/x-icon" />
 </head>
-<body>
-    <header>
-        <nav class="navbar">
-        </nav>
-    </header>
+<body data-api-base="@(Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289")" data-authenticated="@(User.Identity?.IsAuthenticated == true ? "true" : "")">
+    @{
+        var isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+        var isAuthPage = ViewContext.RouteData.Values["controller"]?.ToString() == "Home" && 
+                        (ViewContext.RouteData.Values["action"]?.ToString() == "Login" || 
+                         ViewContext.RouteData.Values["action"]?.ToString() == "Register");
+    }
 
+    @if (!isAuthPage)
+    {
+        <div class="main-container">
+            <aside class="sidebar">
+                <div class="sidebar-logo">
+                    <i class="fas fa-music"></i> SoundAudio
+                </div>
+                
+                <ul class="sidebar-menu">
+                    <li>
+                        <a href="/" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Index" && ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                            <i class="fas fa-home"></i>
+                            <span>Trang chủ</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/Album">
+                            <i class="fas fa-compact-disc"></i>
+                            <span>Albums</span>
+                        </a>
+                    </li>
+                    
+                    @if (isAuthenticated)
+                    {
+                        var user = await UserManager.GetUserAsync(User);
+                        var isAdmin = user != null && await UserManager.IsInRoleAsync(user, "Admin");
+                        
+                        @if (isAdmin)
+                        {
+                            <li><hr style="border-color: #282828; margin: 12px 0;" /></li>
+                            <li>
+                                <a href="/Admin/Dashboard" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Admin" && ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" ? "active" : "")">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/ManageMusic" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "ManageMusic" ? "active" : "")">
+                                    <i class="fas fa-music"></i>
+                                    <span>Quản lý nhạc</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Admin/ManageAlbum" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "ManageAlbum" ? "active" : "")">
+                                    <i class="fas fa-compact-disc"></i>
+                                    <span>Quản lý album</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li><hr style="border-color: #282828; margin: 12px 0;" /></li>
+                            <li>
+                                <a href="/User/Profile" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Profile" ? "active" : "")">
+                                    <i class="fas fa-user"></i>
+                                    <span>Trang cá nhân</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/User/Playlist" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Playlist" ? "active" : "")">
+                                    <i class="fas fa-list-music"></i>
+                                    <span>Playlist</span>
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
 
-    @RenderBody()
+                @if (isAuthenticated)
+                {
+                    <div class="sidebar-logout">
+                        <form asp-controller="Home" asp-action="Logout" method="post">
+                            <button type="submit" class="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Đăng xuất
+                            </button>
+                        </form>
+                    </div>
+                }
+            </aside>
 
-    <div class="box-music">
-        <div id="current-song-info" class="left-info d-flex align-items-center">
-            <img id="current-song-img" src="/images/default-music.jpg" width="50" height="50" class="me-2 rounded" />
-            <span id="current-song-title">Chưa có bài hát nào đang phát</span>           
-        </div>
+            <main class="main-content">
+                <div class="top-bar">
+                    <form asp-controller="Home" asp-action="Search" method="get" class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" name="query" placeholder="Tìm bài hát, album..." />
+                    </form>
 
-        <div class="music-controls-container">
-            <div class="music-controls">
-                <button id="shuffle" class="control-btn"><i class="fas fa-random"></i></button>
-                <button id="prev" class="control-btn"><i class="fas fa-step-backward"></i></button>
-                <button id="playPause" class="control-btn"><i class="fas fa-play"></i></button>
-                <button id="next" class="control-btn"><i class="fas fa-step-forward"></i></button>
-                <button id="repeat" class="control-btn"><i class="fas fa-redo-alt"></i></button>
+                    <div class="user-menu">
+                        @if (isAuthenticated)
+                        {
+                            var user = await UserManager.GetUserAsync(User);
+                            <div class="user-profile" onclick="window.location.href='/User/Profile'" style="cursor: pointer;">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <span class="user-name">@(user?.FullName ?? user?.Email ?? "User")</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <a href="/Home/Register" class="btn btn-secondary">Đăng ký</a>
+                            <a href="/Home/Login" class="btn btn-primary">Đăng nhập</a>
+                        }
+                    </div>
+                </div>
+
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+            </main>
+            
+            <!-- Audio Player -->
+            <div id="audioPlayer" class="audio-player" style="display: none;">
+                <audio id="audioElement"></audio>
+                <div class="player-controls">
+                    <div class="player-song-info">
+                        <img id="playerThumbnail" src="/images/default-music.jpg" alt="Song" class="player-thumbnail" />
+                        <div class="player-details">
+                            <div id="playerSongName" class="player-song-name">Chọn bài hát</div>
+                            <div id="playerArtist" class="player-artist">SoundAudio</div>
+                        </div>
+                    </div>
+                    
+                    <div class="player-center">
+                        <div class="player-buttons">
+                            <button id="prevBtn" class="player-btn"><i class="fas fa-step-backward"></i></button>
+                            <button id="playBtn" class="player-btn player-btn-main"><i class="fas fa-play"></i></button>
+                            <button id="nextBtn" class="player-btn"><i class="fas fa-step-forward"></i></button>
+                        </div>
+                        <div class="player-progress">
+                            <span id="currentTime">0:00</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                                <input type="range" id="progressSlider" min="0" max="100" value="0" class="progress-slider" />
+                            </div>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="player-volume">
+                        <button id="muteBtn" class="player-btn"><i class="fas fa-volume-up"></i></button>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider" />
+                    </div>
+                </div>
             </div>
-            <div class="progress-container">
-                <span id="currentTime">00:00</span>
-                <input type="range" id="progressBar" min="0" value="0" step="1" />
-                <span id="duration">00:00</span>
-            </div>
         </div>
+    }
+    else
+    {
+        @RenderBody()
+    }
 
-        <div class="volume-controls">
-            <button id="viewLyric" class="control-btn"><i class="fas fa-music"></i></button>
-            <button id="mute" class="control-btn"><i class="fas fa-volume-up"></i></button>
-            <input type="range" id="volume" min="0" max="100" value="100" step="1" />
-        </div>
-    </div>
-
-<!-- Modal hiển thị lời bài hát -->
-<div class="modal fade" id="lyricModal" tabindex="-1" aria-labelledby="lyricModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content bg-dark text-white">
-      <div class="modal-header">
-        <h5 class="modal-title" id="lyricModalLabel">Lời bài hát</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="lyricContent">
-        <p>Đang tải lời bài hát...</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/playback-session.js" asp-append-version="true"></script>
+    <script src="~/js/player-simple.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <script>
-        document.getElementById('shuffle').addEventListener('click', function () {
-        this.classList.toggle('active');
-        });
-
-        document.getElementById('repeat').addEventListener('click', function () {
-        this.classList.toggle('active');
-        });
-
-        $(document).ready(function () {
-        $('#viewLyric').on('click', function () {
-            const lyricText = $('#lyricContent').html();
-            if (!lyricText || lyricText.trim() === '') {
-                $('#lyricContent').html('<p>Không có lời bài hát nào.</p>');
-            }
-            const modal = new bootstrap.Modal(document.getElementById('lyricModal'));
-            modal.show();
-        });
-    });
-    </script>
 </body>
 </html>

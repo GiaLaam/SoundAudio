@@ -170,3 +170,9 @@ D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\MyWebApp.Mvc.pdb
 D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\MyWebApp.Mvc.genruntimeconfig.cache
 D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\ref\MyWebApp.Mvc.dll
 D:\Đồ án\SoundAudio\MyWebApp.MVC\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.Google.dll
+D:\Đồ án\SoundAudio\MyWebApp.MVC\obj\Debug\net9.0\MyWebApp.Mvc.sourcelink.json
+D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\compressed\fk6hczpqqy-q82pbjmbqz.gz
+D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\compressed\4mp26rqk0j-6sz1rfkrfa.gz
+D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\compressed\tg0k4odniy-flznvgxmry.gz
+D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\compressed\t3fnad1yze-tmz3ytzowo.gz
+D:\Đồ án\SoundAudio\MyWebApp.Mvc\obj\Debug\net9.0\compressed\j7bg5j7bsf-lmbswcain7.gz

@@ -3,38 +3,61 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyWebApp.Models;
 using MyWebApp.Services;
+using MyWebApp.Api.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace MyWebApp.Controllers.Api
 {
     [ApiController]
     [Route("api/playlist")]
-    [Authorize] // ✅ Đảm bảo chỉ người đã đăng nhập mới truy cập được
+    [Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
     public class PlaylistApiController : ControllerBase
     {
         private readonly PlaylistService _playlistService;
         private readonly MusicService _musicService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<PlaylistApiController> _logger;
 
-        public PlaylistApiController(PlaylistService playlistService, MusicService musicService, UserManager<ApplicationUser> userManager)
+        public PlaylistApiController(PlaylistService playlistService, MusicService musicService, UserManager<ApplicationUser> userManager, ILogger<PlaylistApiController> logger)
         {
             _playlistService = playlistService;
             _musicService = musicService;
             _userManager = userManager;
+            _logger = logger;
         }
 
         // 1️⃣ Lấy tất cả playlist của user hiện tại
-        [HttpGet("my-playlists")]
-        public async Task<IActionResult> GetMyPlaylists()
+        [HttpGet("all")]
+        [Authorize]
+        public async Task<IActionResult> GetAllPlaylists()
         {
-            var userId = _userManager.GetUserId(User);
-            if (string.IsNullOrEmpty(userId))
+            try
             {
-                return Unauthorized(new { message = "User not authenticated" });
-            }
+                var userId = _userManager.GetUserId(User);
+                if (string.IsNullOrEmpty(userId))
+                    return Unauthorized(new { message = "User not authenticated" });
 
-            var playlists = await _playlistService.GetByOwnerAsync(userId, "user");
-            return Ok(new { success = true, playlists });
+                var playlists = await _playlistService.GetByOwnerAsync(userId, "user");
+                return Ok(new ApiResponse<List<Playlist>>
+                {
+                    Success = true,
+                    Message = "Lấy danh sách playlist thành công",
+                    Data = playlists
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy playlist của user");
+                return StatusCode(500, new ApiResponse<List<Playlist>>
+                {
+                    Success = false,
+                    Message = "Lỗi server khi lấy playlist",
+                    Data = null
+                });
+            }
         }
+
 
         // 2️⃣ Lấy chi tiết playlist + bài hát
         [HttpGet("{playlistId}")]
@@ -44,6 +67,23 @@ namespace MyWebApp.Controllers.Api
             if (string.IsNullOrEmpty(userId))
             {
                 return Unauthorized(new { message = "User not authenticated" });
+            }
+
+            // Xử lý trường hợp đặc biệt: "user-playlists" - trả về danh sách playlists
+            if (playlistId == "user-playlists")
+            {
+                var userPlaylists = await _playlistService.GetAllByUserAsync(userId);
+                return Ok(new { 
+                    success = true, 
+                    playlists = userPlaylists,
+                    message = "Danh sách playlist của người dùng"
+                });
+            }
+
+            // Validate ObjectId format
+            if (!MongoDB.Bson.ObjectId.TryParse(playlistId, out _))
+            {
+                return BadRequest(new { success = false, message = "Playlist ID không hợp lệ" });
             }
 
             var playlist = await _playlistService.GetByIdAsync(playlistId);
@@ -72,8 +112,13 @@ namespace MyWebApp.Controllers.Api
                 OwnerId = userId,
                 OwnerType = "user",
                 Name = request.Name,
-                MusicIds = request.SongId != null ? new List<string> { request.SongId } : new List<string>()
+                MusicIds = new List<string>()
             };
+
+            if (!string.IsNullOrEmpty(request.SongId))
+            {
+                newPlaylist.MusicIds.Add(request.SongId);
+            }
 
             await _playlistService.CreateAsync(newPlaylist);
             return Ok(new { success = true, message = "Tạo playlist thành công", playlist = newPlaylist });

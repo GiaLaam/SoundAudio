@@ -1,0 +1,151 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model List<MyWebApp.Models.MusicFile>
+@{
+    ViewData["Title"] = "Quản lý bài hát";
+    var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
+}
+
+<section class="section">
+    <div class="section-header">
+        <h2 class="section-title">Quản lý bài hát</h2>
+        <button class="primary-btn" onclick="openAddMusicModal()">
+            <i class="fas fa-plus"></i> Thêm bài hát
+        </button>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success" style="padding: 12px; background-color: rgba(29, 185, 84, 0.1); border: 1px solid var(--spotify-green); border-radius: 8px; margin-bottom: 20px; color: var(--spotify-green);">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger" style="padding: 12px; background-color: rgba(255, 0, 0, 0.1); border: 1px solid #ff0000; border-radius: 8px; margin-bottom: 20px; color: #ff0000;">
+            @TempData["Error"]
+        </div>
+    }
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên bài hát</th>
+                    <th>ID Tác giả</th>
+                    <th>ID Album</th>
+                    <th>Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var song in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@(string.IsNullOrEmpty(song.ImageUrl) ? "/images/default-music.jpg" : apiBaseUrl + song.ImageUrl)" 
+                                     alt="@song.NameSong" 
+                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" />
+                            </td>
+                            <td>@song.NameSong</td>
+                            <td>@(song.AuthorId ?? "N/A")</td>
+                            <td>@(song.AlbumId ?? "N/A")</td>
+                            <td>
+                                <button class="action-btn" onclick="editMusic('@song.Id')" title="Sửa">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn" onclick="deleteMusic('@song.Id', '@song.NameSong')" title="Xóa" style="color: #ff0000;">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--spotify-light-gray); padding: 40px;">
+                            Chưa có bài hát nào
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Add Music Modal -->
+<div id="addMusicModal" class="modal">
+    <div class="modal-content" style="max-width: 600px;">
+        <div class="modal-header">
+            <h3>Thêm bài hát mới</h3>
+            <button class="modal-close" onclick="closeAddMusicModal()">&times;</button>
+        </div>
+        <form asp-controller="Admin" asp-action="AddMusic" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Tên bài hát</label>
+                <input type="text" name="nameSong" required />
+            </div>
+            <div class="form-group">
+                <label>File nhạc (MP3)</label>
+                <input type="file" name="musicFile" accept=".mp3" required />
+            </div>
+            <div class="form-group">
+                <label>Hình ảnh</label>
+                <input type="file" name="imageFile" accept="image/*" />
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="secondary-btn" onclick="closeAddMusicModal()">Hủy</button>
+                <button type="submit" class="primary-btn">Thêm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openAddMusicModal() {
+            document.getElementById('addMusicModal').style.display = 'flex';
+        }
+
+        function closeAddMusicModal() {
+            document.getElementById('addMusicModal').style.display = 'none';
+        }
+
+        function editMusic(id) {
+            window.location.href = '/Admin/EditMusic/' + id;
+        }
+
+        function deleteMusic(id, name) {
+            if (confirm('Bạn có chắc muốn xóa bài hát "' + name + '"?')) {
+                fetch('/Admin/DeleteMusic/' + id, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Xóa bài hát thất bại');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra');
+                });
+            }
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('addMusicModal');
+            if (event.target == modal) {
+                closeAddMusicModal();
+            }
+        }
+    </script>
+}
