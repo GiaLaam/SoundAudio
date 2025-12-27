@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6Fl+r0b9Nhc=",
+  "dgSpecHash": "W9ZWfOM2zHU=",
   "success": true,
-  "projectFilePath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj",
+  "projectFilePath": "D:\\DoAn\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ADMIN\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
     "C:\\Users\\ADMIN\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\9.0.9\\microsoft.aspnetcore.cryptography.internal.9.0.9.nupkg.sha512",

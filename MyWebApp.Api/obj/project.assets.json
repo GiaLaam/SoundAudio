@@ -6779,11 +6779,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Đồ án\\SoundAudio\\MyWebApp.Api\\MyWebApp.Api.csproj",
+      "projectUniqueName": "D:\\DoAn\\SoundAudio\\MyWebApp.Api\\MyWebApp.Api.csproj",
       "projectName": "MyWebApp.Api",
-      "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Api\\MyWebApp.Api.csproj",
+      "projectPath": "D:\\DoAn\\SoundAudio\\MyWebApp.Api\\MyWebApp.Api.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-      "outputPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Api\\obj\\",
+      "outputPath": "D:\\DoAn\\SoundAudio\\MyWebApp.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6805,14 +6805,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "D:\\Đồ án\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj": {
-              "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj"
+            "D:\\DoAn\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj": {
+              "projectPath": "D:\\DoAn\\SoundAudio\\MyWebApp.Data\\MyWebApp.Data.csproj"
             },
-            "D:\\Đồ án\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj": {
-              "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj"
+            "D:\\DoAn\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj": {
+              "projectPath": "D:\\DoAn\\SoundAudio\\MyWebApp.Models\\MyWebApp.Models.csproj"
             },
-            "D:\\Đồ án\\SoundAudio\\MyWebApp.Services\\MyWebApp.Services.csproj": {
-              "projectPath": "D:\\Đồ án\\SoundAudio\\MyWebApp.Services\\MyWebApp.Services.csproj"
+            "D:\\DoAn\\SoundAudio\\MyWebApp.Services\\MyWebApp.Services.csproj": {
+              "projectPath": "D:\\DoAn\\SoundAudio\\MyWebApp.Services\\MyWebApp.Services.csproj"
             }
           }
         }

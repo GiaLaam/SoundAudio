@@ -11,3 +11,16 @@ D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.dll
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\refint\MyWebApp.Models.dll
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.pdb
 D:\Đồ án\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\ref\MyWebApp.Models.dll
+D:\DoAn\SoundAudio\MyWebApp.Models\bin\Debug\net9.0\MyWebApp.Models.deps.json
+D:\DoAn\SoundAudio\MyWebApp.Models\bin\Debug\net9.0\MyWebApp.Models.dll
+D:\DoAn\SoundAudio\MyWebApp.Models\bin\Debug\net9.0\MyWebApp.Models.pdb
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.csproj.AssemblyReference.cache
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.AssemblyInfoInputs.cache
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.AssemblyInfo.cs
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.csproj.CoreCompileInputs.cache
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.sourcelink.json
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.dll
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\refint\MyWebApp.Models.dll
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\MyWebApp.Models.pdb
+D:\DoAn\SoundAudio\MyWebApp.Models\obj\Debug\net9.0\ref\MyWebApp.Models.dll
