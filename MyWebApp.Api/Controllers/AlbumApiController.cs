@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MyWebApp.Models;
 using MyWebApp.Services;
 using MyWebApp.Api.Models;
@@ -178,7 +180,7 @@ namespace MyWebApp.Controllers
         /// POST: api/AlbumApi
         /// </summary>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<ActionResult<ApiResponse<Album>>> CreateAlbum([FromBody] CreateAlbumRequest request)
         {
             try
@@ -228,7 +230,7 @@ namespace MyWebApp.Controllers
         /// PUT: api/AlbumApi/{id}
         /// </summary>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<ActionResult<ApiResponse<Album>>> UpdateAlbum(string id, [FromBody] UpdateAlbumRequest request)
         {
             try
@@ -275,7 +277,7 @@ namespace MyWebApp.Controllers
         /// DELETE: api/AlbumApi/{id}
         /// </summary>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<ActionResult<ApiResponse<bool>>> DeleteAlbum(string id)
         {
             try
@@ -361,7 +363,7 @@ namespace MyWebApp.Controllers
         /// </summary>
         [HttpPost("{id}/upload-image")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<ActionResult<ApiResponse<Album>>> UploadAlbumImage(string id, [FromForm] UploadAlbumImageRequest request)
         {
             try
@@ -436,7 +438,7 @@ namespace MyWebApp.Controllers
         /// </summary>
         [HttpPut("{id}/update-with-image")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<ActionResult<ApiResponse<Album>>> UpdateAlbumWithImage(
             string id,
             [FromForm] UpdateAlbumWithImageRequest request)
@@ -514,7 +516,7 @@ namespace MyWebApp.Controllers
         /// </summary>
         [HttpPost("create-with-image")]
         [Consumes("multipart/form-data")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<ActionResult<ApiResponse<Album>>> CreateAlbumWithImage(
             [FromForm] CreateAlbumWithImageRequest request)
         {

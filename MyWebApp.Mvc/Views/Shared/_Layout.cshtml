@@ -8,6 +8,7 @@
     <title>@ViewData["Title"] - SoundAudio</title>
     <link rel="stylesheet" href="~/css/main.css?v=@DateTime.Now.Ticks" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body data-api-base="@(Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289")" data-authenticated="@(User.Identity?.IsAuthenticated == true ? "true" : "")">
     @{
@@ -77,7 +78,7 @@
                             </li>
                             <li>
                                 <a href="/User/Playlist" class="@(ViewContext.RouteData.Values["action"]?.ToString() == "Playlist" ? "active" : "")">
-                                    <i class="fas fa-list-music"></i>
+                                    <i class="fas fa-list"></i>
                                     <span>Playlist</span>
                                 </a>
                             </li>
@@ -134,7 +135,7 @@
                 <audio id="audioElement"></audio>
                 <div class="player-controls">
                     <div class="player-song-info">
-                        <img id="playerThumbnail" src="/images/default-music.jpg" alt="Song" class="player-thumbnail" />
+                        <img id="playerThumbnail" src="/images/logo.png" alt="Song" class="player-thumbnail" />
                         <div class="player-details">
                             <div id="playerSongName" class="player-song-name">Chọn bài hát</div>
                             <div id="playerArtist" class="player-artist">SoundAudio</div>
@@ -151,18 +152,44 @@
                             <span id="currentTime">0:00</span>
                             <div class="progress-bar">
                                 <div class="progress-fill"></div>
-                                <input type="range" id="progressSlider" min="0" max="100" value="0" class="progress-slider" />
+                                <input type="range" id="progressBar" min="0" max="100" value="0" class="progress-slider" />
                             </div>
                             <span id="duration">0:00</span>
                         </div>
                     </div>
                     
-                    <div class="player-volume">
-                        <button id="muteBtn" class="player-btn"><i class="fas fa-volume-up"></i></button>
-                        <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider" />
+                    <div class="player-extra">
+                        <button id="devicesBtn" class="player-btn" title="Thiết bị phát nhạc">
+                            <i class="fas fa-desktop"></i>
+                        </button>
+                        <button id="lyricsBtn" class="player-btn" title="Lời bài hát">
+                            <i class="fas fa-microphone-alt"></i>
+                        </button>
+                        <div class="player-volume">
+                            <button id="muteBtn" class="player-btn"><i class="fas fa-volume-up"></i></button>
+                            <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider" />
+                        </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Lyrics Panel -->
+            <div id="lyricsPanel" class="lyrics-panel">
+                <button id="closeLyricsBtn" class="lyrics-close-btn">
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="lyrics-panel-content">
+                    <div id="lyricsContent" class="lyrics-text">
+                        <div class="lyrics-placeholder">
+                            <i class="fas fa-music"></i>
+                            <p>Chọn một bài hát để xem lời</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Lyrics Panel Overlay -->
+            <div id="lyricsOverlay" class="lyrics-overlay"></div>
         </div>
     }
     else

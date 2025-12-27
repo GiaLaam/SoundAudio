@@ -1,0 +1,471 @@
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model MyWebApp.Models.Playlist
+@{
+    ViewData["Title"] = Model.Name;
+    var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
+    var songs = ViewBag.Songs as List<MyWebApp.Models.MusicFile> ?? new List<MyWebApp.Models.MusicFile>();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Playlist.css?v=@DateTime.Now.Ticks" />
+    <style>
+        .playlist-detail-page {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1a1a2e 0%, #121212 30%);
+            padding-bottom: 120px;
+        }
+
+        .playlist-detail-header {
+            position: relative;
+            padding: 60px 40px 40px;
+            background: linear-gradient(180deg, rgba(29, 185, 84, 0.3) 0%, transparent 100%);
+        }
+
+        .playlist-detail-content {
+            display: flex;
+            gap: 32px;
+            align-items: flex-end;
+        }
+
+        .playlist-cover {
+            width: 232px;
+            height: 232px;
+            background: linear-gradient(135deg, #1db954, #191414);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            flex-shrink: 0;
+        }
+
+        .playlist-cover i {
+            font-size: 80px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .playlist-info {
+            flex: 1;
+        }
+
+        .playlist-type-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .playlist-title {
+            font-size: 72px;
+            font-weight: 900;
+            color: #fff;
+            margin: 0 0 24px 0;
+            line-height: 1;
+        }
+
+        .playlist-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        .playlist-stats span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .playlist-actions {
+            padding: 24px 40px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .btn-play-all {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #1db954;
+            border: none;
+            color: #000;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .btn-play-all:hover {
+            transform: scale(1.06);
+            background: #1ed760;
+        }
+
+        .btn-shuffle {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-shuffle:hover {
+            border-color: #fff;
+        }
+
+        .songs-container {
+            padding: 0 40px;
+        }
+
+        .songs-header {
+            display: grid;
+            grid-template-columns: 40px 4fr 1fr 60px;
+            padding: 8px 16px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 16px;
+        }
+
+        .song-row {
+            display: grid;
+            grid-template-columns: 40px 4fr 1fr 60px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+            align-items: center;
+        }
+
+        .song-row:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .song-row:hover .song-number {
+            display: none;
+        }
+
+        .song-row:hover .song-play-btn {
+            display: flex;
+        }
+
+        .song-number-cell {
+            position: relative;
+        }
+
+        .song-number {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+        }
+
+        .song-play-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .song-info-cell {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .song-thumbnail {
+            width: 40px;
+            height: 40px;
+            border-radius: 4px;
+            object-fit: cover;
+            background: #333;
+        }
+
+        .song-details {
+            min-width: 0;
+        }
+
+        .song-name {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .song-artist {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+        }
+
+        .song-duration {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .song-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .song-row:hover .song-actions {
+            opacity: 1;
+        }
+
+        .btn-remove {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .btn-remove:hover {
+            color: #e91e63;
+            background: rgba(233, 30, 99, 0.1);
+        }
+
+        .empty-playlist {
+            text-align: center;
+            padding: 80px 40px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-playlist i {
+            font-size: 64px;
+            margin-bottom: 24px;
+            opacity: 0.3;
+        }
+
+        .empty-playlist h3 {
+            font-size: 24px;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .empty-playlist p {
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 0;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        @@media (max-width: 768px) {
+            .playlist-detail-header {
+                padding: 40px 20px;
+            }
+
+            .playlist-detail-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .playlist-cover {
+                width: 180px;
+                height: 180px;
+            }
+
+            .playlist-title {
+                font-size: 36px;
+            }
+
+            .songs-header {
+                display: none;
+            }
+
+            .song-row {
+                grid-template-columns: 1fr 60px;
+            }
+
+            .song-number-cell {
+                display: none;
+            }
+
+            .song-duration {
+                display: none;
+            }
+
+            .songs-container {
+                padding: 0 20px;
+            }
+
+            .playlist-actions {
+                padding: 24px 20px;
+            }
+        }
+    </style>
+}
+
+<div class="playlist-detail-page">
+    <div class="playlist-detail-header">
+        <a href="/User/Playlist" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            <span>Quay lại danh sách</span>
+        </a>
+        
+        <div class="playlist-detail-content">
+            <div class="playlist-cover">
+                <i class="fas fa-headphones"></i>
+            </div>
+            <div class="playlist-info">
+                <p class="playlist-type-label">Playlist</p>
+                <h1 class="playlist-title">@Model.Name</h1>
+                <div class="playlist-stats">
+                    <span><i class="fas fa-music"></i> @songs.Count bài hát</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="playlist-actions">
+        @if (songs.Any())
+        {
+            <button class="btn-play-all" onclick="playAll()" title="Phát tất cả">
+                <i class="fas fa-play"></i>
+            </button>
+            <button class="btn-shuffle" onclick="shufflePlay()">
+                <i class="fas fa-random"></i> Phát ngẫu nhiên
+            </button>
+        }
+    </div>
+
+    <div class="songs-container">
+        @if (songs.Any())
+        {
+            <div class="songs-header">
+                <span>#</span>
+                <span>Tiêu đề</span>
+                <span style="text-align: right;">Thời lượng</span>
+                <span></span>
+            </div>
+
+            var index = 1;
+            foreach (var song in songs)
+            {
+                var imageUrl = !string.IsNullOrEmpty(song.ImageUrl) 
+                    ? (song.ImageUrl.StartsWith("http") ? song.ImageUrl : apiBaseUrl + song.ImageUrl)
+                    : "/images/default-song.png";
+                
+                <div class="song-row" 
+                     data-song-id="@song.Id"
+                     data-song-name="@song.NameSong"
+                     data-song-artist="@(song.AuthorId ?? "Unknown")"
+                     data-song-image="@imageUrl">
+                    <div class="song-number-cell">
+                        <span class="song-number">@index</span>
+                        <button class="song-play-btn" onclick="playSong('@song.Id', '@song.NameSong', '@(song.AuthorId ?? "Unknown")', '@imageUrl')">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                    <div class="song-info-cell">
+                        <img src="@imageUrl" alt="@song.NameSong" class="song-thumbnail" />
+                        <div class="song-details">
+                            <div class="song-name">@song.NameSong</div>
+                            <div class="song-artist">@(song.AuthorId ?? "Unknown Artist")</div>
+                        </div>
+                    </div>
+                    <div class="song-duration">--:--</div>
+                    <div class="song-actions">
+                        <button class="btn-remove" onclick="removeSong('@Model.Id', '@song.Id')" title="Xóa khỏi playlist">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                index++;
+            }
+        }
+        else
+        {
+            <div class="empty-playlist">
+                <i class="fas fa-music"></i>
+                <h3>Playlist trống</h3>
+                <p>Thêm bài hát yêu thích vào playlist này</p>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var playlistSongs = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(songs.Select(s => new {
+            id = s.Id,
+            name = s.NameSong,
+            artist = s.AuthorId ?? "Unknown",
+            image = !string.IsNullOrEmpty(s.ImageUrl) 
+                ? (s.ImageUrl.StartsWith("http") ? s.ImageUrl : apiBaseUrl + s.ImageUrl)
+                : "/images/default-song.png"
+        })));
+
+        function playAll() {
+            if (playlistSongs.length > 0) {
+                var song = playlistSongs[0];
+                playSong(song.id, song.name, song.artist, song.image);
+            }
+        }
+
+        function shufflePlay() {
+            if (playlistSongs.length > 0) {
+                var shuffled = [...playlistSongs].sort(() => Math.random() - 0.5);
+                var song = shuffled[0];
+                playSong(song.id, song.name, song.artist, song.image);
+            }
+        }
+
+        function removeSong(playlistId, songId) {
+            if (!confirm('Bạn có chắc muốn xóa bài hát này khỏi playlist?')) return;
+
+            fetch('/User/RemoveFromPlaylist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: `playlistId=${encodeURIComponent(playlistId)}&songId=${encodeURIComponent(songId)}`
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra');
+                }
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                alert('Có lỗi xảy ra khi xóa bài hát');
+            });
+        }
+    </script>
+}

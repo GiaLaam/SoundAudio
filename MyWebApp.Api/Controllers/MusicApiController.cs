@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MyWebApp.Models;
 using MyWebApp.Services;
 
@@ -42,6 +44,7 @@ namespace MyWebApp.Api.Controllers
                     s.FilePath,
                     s.ImageUrl,
                     s.AuthorId,
+                    s.AlbumId,
                     s.UploadeAt
                 }));
             }
@@ -98,7 +101,40 @@ namespace MyWebApp.Api.Controllers
             if (stream == null)
                 return NotFound(new { message = "Không tìm thấy file nhạc trong GridFS." });
 
-            return File(stream, "audio/mpeg", song.FileName, enableRangeProcessing: true);
+            // Copy to MemoryStream for seekable stream (required for range processing)
+            var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            return File(memoryStream, "audio/mpeg", song.FileName, enableRangeProcessing: true);
+        }
+
+        /// <summary>
+        /// ✅ Lấy thông tin bài hát theo ID (trả về JSON metadata).
+        /// </summary>
+        [HttpGet("info/{id}")]
+        [AllowAnonymous]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> GetMusicInfo(string id)
+        {
+            Console.WriteLine($"[MusicApi] Yêu cầu lấy thông tin bài hát: {id}");
+
+            var song = await _musicService.GetByAsync(id);
+            if (song == null)
+                return NotFound(new { message = "Không tìm thấy bài hát." });
+
+            return Ok(new
+            {
+                song.Id,
+                song.NameSong,
+                song.FileName,
+                song.FilePath,
+                song.ImageUrl,
+                song.AuthorId,
+                song.AlbumId,
+                song.UploadeAt
+            });
         }
 
         /// <summary>
@@ -123,7 +159,12 @@ namespace MyWebApp.Api.Controllers
             if (stream == null)
                 return NotFound(new { message = "Không tìm thấy file nhạc trong GridFS." });
 
-            return File(stream, "audio/mpeg", song.FileName, enableRangeProcessing: true);
+            // Copy to MemoryStream for seekable stream (required for range processing)
+            var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            return File(memoryStream, "audio/mpeg", song.FileName, enableRangeProcessing: true);
         }
 
         /// <summary>
@@ -147,7 +188,7 @@ namespace MyWebApp.Api.Controllers
         /// Upload bài hát mới.
         /// </summary>
         [HttpPost("upload")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         [Consumes("multipart/form-data")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
@@ -174,7 +215,8 @@ namespace MyWebApp.Api.Controllers
                     FileName = sanitizedFileName,
                     FilePath = $"/api/music/{sanitizedFileName}",
                     GridFSFileId = gridFsId,
-                    UploadeAt = DateTime.UtcNow
+                    UploadeAt = DateTime.UtcNow,
+                    AlbumId = request.AlbumId
                 };
 
                 // Upload ảnh nếu có
@@ -229,7 +271,7 @@ namespace MyWebApp.Api.Controllers
         /// Xóa bài hát theo ID.
         /// </summary>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         public async Task<IActionResult> DeleteMusic(string id)
         {
             var result = await _musicService.DeleteAsync(id);

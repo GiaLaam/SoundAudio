@@ -332,5 +332,56 @@ namespace MyWebApp.Controllers
 
             return Json(new { success = true });
         }
+
+        [Authorize]
+        public async Task<IActionResult> PlaylistDetails(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return NotFound();
+
+            // Use direct DB access for reliability
+            var playlist = await _playlistService.GetByIdAsync(id);
+            if (playlist == null)
+                return NotFound();
+
+            // Verify ownership
+            var ownerId = _userManager.GetUserId(User);
+            if (playlist.OwnerId != ownerId || playlist.OwnerType != "user")
+                return Forbid();
+
+            // Get all songs in the playlist
+            var allSongs = await _musicApiService.GetAllAsync();
+            var playlistSongs = allSongs.Where(s => playlist.MusicIds.Contains(s.Id)).ToList();
+
+            ViewBag.Playlist = playlist;
+            ViewBag.Songs = playlistSongs;
+
+            return View(playlist);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromPlaylist(string playlistId, string songId)
+        {
+            if (string.IsNullOrEmpty(playlistId) || string.IsNullOrEmpty(songId))
+                return Json(new { success = false, message = "Thông tin không hợp lệ." });
+
+            var playlist = await _playlistService.GetByIdAsync(playlistId);
+            if (playlist == null)
+                return Json(new { success = false, message = "Playlist không tồn tại." });
+
+            var ownerId = _userManager.GetUserId(User);
+            if (playlist.OwnerId != ownerId || playlist.OwnerType != "user")
+                return Json(new { success = false, message = "Bạn không có quyền chỉnh sửa playlist này." });
+
+            if (playlist.MusicIds.Contains(songId))
+            {
+                playlist.MusicIds.Remove(songId);
+                await _playlistService.UpdateAsync(playlist);
+                return Json(new { success = true, message = "Đã xóa bài hát khỏi playlist." });
+            }
+
+            return Json(new { success = false, message = "Bài hát không có trong playlist." });
+        }
     }
 }

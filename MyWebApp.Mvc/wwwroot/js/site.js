@@ -191,7 +191,7 @@
                 const img = card.find('img').attr('src');
 
                 $('#current-song-title').text(name || 'Đang phát bài hát');
-                $('#current-song-img').attr('src', img || '/images/default-music.jpg');
+                $('#current-song-img').attr('src', img || '/images/logo.png');
 
                 $.ajax({
                     url: '/api/lyric/by-filepath',

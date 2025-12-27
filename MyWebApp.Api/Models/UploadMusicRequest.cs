@@ -11,5 +11,7 @@ namespace MyWebApp.Models
         public IFormFile? ImageFile { get; set; }
 
         public IFormFile? LrcFile { get; set; }
+
+        public string? AlbumId { get; set; }
     }
 }

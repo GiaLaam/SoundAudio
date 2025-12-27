@@ -4,62 +4,130 @@
 @{
     ViewData["Title"] = "Playlist của tôi";
     var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
+    var totalSongs = Model?.Sum(p => p.MusicIds.Count) ?? 0;
 }
 
-<section class="section">
-    <div class="section-header">
-        <h2 class="section-title">Playlist của tôi</h2>
-        <button class="primary-btn" onclick="openCreatePlaylistModal()">
-            <i class="fas fa-plus"></i> Tạo playlist
+@section Styles {
+    <link rel="stylesheet" href="~/css/Playlist.css?v=@DateTime.Now.Ticks" />
+}
+
+<div class="user-playlist-page">
+    <div class="playlist-header">
+        <div class="playlist-header-bg"></div>
+        <div class="playlist-header-content">
+            <div class="playlist-icon-large">
+                <i class="fas fa-music"></i>
+            </div>
+            <div class="playlist-header-info">
+                <span class="playlist-type">Bộ sưu tập</span>
+                <h1 class="playlist-main-title">Playlist của tôi</h1>
+                <div class="playlist-meta">
+                    <span class="meta-item"><i class="fas fa-list"></i> @(Model?.Count ?? 0) playlist</span>
+                    <span class="meta-divider">•</span>
+                    <span class="meta-item"><i class="fas fa-music"></i> @totalSongs bài hát</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="playlist-actions-bar">
+        <button class="btn-create-playlist" onclick="openCreatePlaylistModal()">
+            <i class="fas fa-plus"></i>
+            <span>Tạo playlist mới</span>
         </button>
     </div>
 
-    @if (Model != null && Model.Any())
-    {
-        <div class="grid">
-            @foreach (var playlist in Model)
-            {
-                <div class="card" onclick="window.location.href='/User/PlaylistDetails/@playlist.Id'">
-                    <div class="card-image">
-                        <div class="card-placeholder">
-                            <i class="fas fa-list-ul"></i>
+    <div class="playlist-content">
+        @if (Model != null && Model.Any())
+        {
+            <div class="playlist-grid">
+                @{ var index = 0; }
+                @foreach (var playlist in Model)
+                {
+                    var gradients = new[] {
+                        "linear-gradient(135deg, #1db954, #191414)",
+                        "linear-gradient(135deg, #e91e63, #191414)",
+                        "linear-gradient(135deg, #9c27b0, #191414)",
+                        "linear-gradient(135deg, #2196f3, #191414)",
+                        "linear-gradient(135deg, #ff9800, #191414)",
+                        "linear-gradient(135deg, #00bcd4, #191414)"
+                    };
+                    var gradient = gradients[index % gradients.Length];
+                    index++;
+                    
+                    <div class="playlist-card" onclick="window.location.href='/User/PlaylistDetails/@playlist.Id'">
+                        <div class="playlist-card-image" style="background: @gradient;">
+                            <i class="fas fa-headphones"></i>
+                            <div class="playlist-card-overlay">
+                                <button class="play-btn-large">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
                         </div>
-                        <button class="play-btn"><i class="fas fa-play"></i></button>
+                        <div class="playlist-card-info">
+                            <h3 class="playlist-card-title">@playlist.Name</h3>
+                            <p class="playlist-card-subtitle">
+                                <i class="fas fa-music"></i> @playlist.MusicIds.Count bài hát
+                            </p>
+                        </div>
+                        <div class="playlist-card-actions">
+                            <button class="action-icon" title="Phát">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="action-icon" title="Thêm">
+                                <i class="fas fa-ellipsis-h"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-title">@playlist.Name</div>
-                    <div class="card-subtitle">@playlist.MusicIds.Count bài hát</div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-compact-disc"></i>
                 </div>
-            }
-        </div>
-    }
-    else
-    {
-        <div style="text-align: center; padding: 60px 20px;">
-            <i class="fas fa-list-ul" style="font-size: 64px; color: var(--spotify-light-gray); margin-bottom: 20px;"></i>
-            <h3 style="color: var(--spotify-light-gray); margin-bottom: 10px;">Chưa có playlist nào</h3>
-            <p style="color: var(--spotify-light-gray); margin-bottom: 30px;">Tạo playlist đầu tiên của bạn ngay!</p>
-            <button class="primary-btn" onclick="openCreatePlaylistModal()">
-                <i class="fas fa-plus"></i> Tạo playlist
-            </button>
-        </div>
-    }
-</section>
+                <h3>Chưa có playlist nào</h3>
+                <p>Tạo playlist đầu tiên để lưu những bài hát yêu thích của bạn</p>
+                <button class="btn-create-first" onclick="openCreatePlaylistModal()">
+                    <i class="fas fa-plus"></i> Tạo playlist đầu tiên
+                </button>
+            </div>
+        }
+    </div>
+</div>
 
 <!-- Create Playlist Modal -->
-<div id="createPlaylistModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
+<div id="createPlaylistModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-box-header">
+            <div class="modal-icon">
+                <i class="fas fa-plus-circle"></i>
+            </div>
             <h3>Tạo playlist mới</h3>
-            <button class="modal-close" onclick="closeCreatePlaylistModal()">&times;</button>
+            <button class="modal-close-btn" onclick="closeCreatePlaylistModal()">
+                <i class="fas fa-times"></i>
+            </button>
         </div>
         <form id="createPlaylistForm" onsubmit="return createPlaylist(event)">
-            <div class="form-group">
-                <label>Tên playlist</label>
-                <input type="text" id="playlistName" name="name" required placeholder="Nhập tên playlist" />
+            <div class="modal-body">
+                <div class="form-field">
+                    <label for="playlistName">
+                        <i class="fas fa-edit"></i> Tên playlist
+                    </label>
+                    <input type="text" id="playlistName" name="name" required 
+                           placeholder="Nhập tên cho playlist của bạn..." 
+                           class="input-field" />
+                </div>
             </div>
-            <div class="modal-actions">
-                <button type="button" class="secondary-btn" onclick="closeCreatePlaylistModal()">Hủy</button>
-                <button type="submit" class="primary-btn">Tạo</button>
+            <div class="modal-footer">
+                <button type="button" class="btn-cancel" onclick="closeCreatePlaylistModal()">
+                    Hủy bỏ
+                </button>
+                <button type="submit" class="btn-confirm">
+                    <i class="fas fa-check"></i> Tạo playlist
+                </button>
             </div>
         </form>
     </div>

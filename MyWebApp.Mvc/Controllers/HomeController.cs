@@ -19,6 +19,7 @@ namespace MyWebApp.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly JwtService _jwtService;
         
         public HomeController(
             ILogger<HomeController> logger,
@@ -27,12 +28,14 @@ namespace MyWebApp.Controllers
             AlbumApiService albumApiService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            JwtService jwtService)
         {
             _logger = logger;
             _musicApiService = musicApiService;
             _playlistApiService = playlistApiService;
             _albumApiService = albumApiService;
+            _jwtService = jwtService;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
@@ -126,6 +129,11 @@ namespace MyWebApp.Controllers
                     ViewBag.Error = "Người dùng không tồn tại.";
                     return View();
                 }
+
+                // Tạo JWT token và lưu vào session
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = await _jwtService.GenerateToken(user, roles);
+                HttpContext.Session.SetString("JwtToken", token);
 
                 // ✅ Kiểm tra vai trò và redirect tương ứng
                 if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))
@@ -228,25 +236,38 @@ namespace MyWebApp.Controllers
         public async Task<IActionResult> Search(string query)
         {
             var musicFiles = await _musicApiService.GetAllAsync();
-            var results = string.IsNullOrEmpty(query)
-                ? musicFiles
-                : musicFiles.Where(m => m.NameSong.Contains(query, StringComparison.OrdinalIgnoreCase)).ToList();
-
-            ViewBag.SearchResults = results;
-            ViewBag.ViewMode = "Search";
-
-            if (User.Identity.IsAuthenticated)
+            var albums = await _albumApiService.GetAllAsync();
+            
+            List<MusicFile> songResults;
+            List<Album> albumResults;
+            
+            if (string.IsNullOrEmpty(query))
             {
-                ViewBag.IsLoggedIn = true;
-                var ownerId = _userManager.GetUserId(User);
-                ViewBag.Playlists = await _playlistApiService.GetByOwnerAsync(ownerId, "user");
-                return View("~/Views/User/NguoiDung.cshtml", results);
+                songResults = musicFiles;
+                albumResults = albums;
             }
             else
             {
-                ViewBag.IsLoggedIn = false;
-                return View("Index", results);
+                songResults = musicFiles.Where(m => 
+                    m.NameSong != null && m.NameSong.Contains(query, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+                
+                albumResults = albums.Where(a => 
+                    a.Name != null && a.Name.Contains(query, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
             }
+            
+            ViewBag.SearchQuery = query;
+            ViewBag.Albums = albumResults;
+            ViewBag.IsLoggedIn = User.Identity?.IsAuthenticated ?? false;
+            
+            if (User.Identity?.IsAuthenticated == true)
+            {
+                var ownerId = _userManager.GetUserId(User);
+                ViewBag.Playlists = await _playlistApiService.GetByOwnerAsync(ownerId, "user");
+            }
+            
+            return View("Search", songResults);
         }
 
         [HttpGet]
@@ -288,6 +309,11 @@ namespace MyWebApp.Controllers
                     ViewBag.Error = "Người dùng không tồn tại.";
                     return View();
                 }
+
+                // Tạo JWT token và lưu vào session
+                var roles = await _userManager.GetRolesAsync(user);
+                var token = await _jwtService.GenerateToken(user, roles);
+                HttpContext.Session.SetString("JwtToken", token);
 
                 // Check role and redirect
                 if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))

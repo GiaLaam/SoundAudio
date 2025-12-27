@@ -7,7 +7,9 @@ namespace MyWebApp.Api.Hubs
     [Authorize(AuthenticationSchemes = "Cookies,Bearer")]
     public class MusicPlaybackHub : Hub
     {
-        private static readonly Dictionary<string, PlaybackSession> UserSessions = new();
+        // Đổi từ Dictionary<userId, session> sang Dictionary<connectionId, session>
+        // để hỗ trợ nhiều thiết bị cho cùng 1 user
+        private static readonly Dictionary<string, PlaybackSession> ConnectionSessions = new();
         private static readonly object LockObject = new();
 
         private string? GetUserId()
@@ -37,21 +39,8 @@ namespace MyWebApp.Api.Hubs
             {
                 lock (LockObject)
                 {
-                    if (UserSessions.TryGetValue(userId, out var existingSession))
-                    {
-                        // Notify the old connection that it's being replaced
-                        if (existingSession.ConnectionId != Context.ConnectionId)
-                        {
-                            Clients.Client(existingSession.ConnectionId)
-                                .SendAsync("SessionReplaced", new
-                                {
-                                    newDevice = GetDeviceInfo(),
-                                    message = "Playback has started on another device"
-                                });
-                        }
-                    }
-
-                    UserSessions[userId] = new PlaybackSession
+                    // Lưu session theo connectionId (cho phép nhiều thiết bị)
+                    ConnectionSessions[Context.ConnectionId] = new PlaybackSession
                     {
                         UserId = userId,
                         ConnectionId = Context.ConnectionId,
@@ -62,7 +51,13 @@ namespace MyWebApp.Api.Hubs
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, $"user_{userId}");
                 
-                Console.WriteLine($"[MusicPlaybackHub] User {userId} connected from {GetDeviceInfo()}");
+                Console.WriteLine($"[MusicPlaybackHub] User {userId} connected from {GetDeviceInfo()} (ConnectionId: {Context.ConnectionId})");
+                
+                // Log tổng số sessions
+                lock (LockObject)
+                {
+                    Console.WriteLine($"[MusicPlaybackHub] Total active sessions: {ConnectionSessions.Count}");
+                }
             }
 
             await base.OnConnectedAsync();
@@ -76,16 +71,13 @@ namespace MyWebApp.Api.Hubs
             {
                 lock (LockObject)
                 {
-                    if (UserSessions.TryGetValue(userId, out var session) 
-                        && session.ConnectionId == Context.ConnectionId)
-                    {
-                        UserSessions.Remove(userId);
-                    }
+                    // Xóa session theo connectionId
+                    ConnectionSessions.Remove(Context.ConnectionId);
                 }
 
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"user_{userId}");
                 
-                Console.WriteLine($"[MusicPlaybackHub] User {userId} disconnected");
+                Console.WriteLine($"[MusicPlaybackHub] User {userId} disconnected (ConnectionId: {Context.ConnectionId})");
             }
 
             await base.OnDisconnectedAsync(exception);
@@ -107,7 +99,7 @@ namespace MyWebApp.Api.Hubs
 
             lock (LockObject)
             {
-                if (UserSessions.TryGetValue(userId, out var session))
+                if (ConnectionSessions.TryGetValue(Context.ConnectionId, out var session))
                 {
                     session.DeviceId = deviceId;
                     session.DeviceName = deviceName;
@@ -136,8 +128,23 @@ namespace MyWebApp.Api.Hubs
             string deviceInfo = GetDeviceInfo();
             
             Console.WriteLine($"[MusicPlaybackHub] User {userId} started playing: {songName} on {deviceInfo}");
+            Console.WriteLine($"   Current ConnectionId: {Context.ConnectionId}");
+            
+            // Log các connections khác trong group
+            lock (LockObject)
+            {
+                var otherConnections = ConnectionSessions.Values
+                    .Where(s => s.UserId == userId && s.ConnectionId != Context.ConnectionId)
+                    .ToList();
+                Console.WriteLine($"   Other connections in group: {otherConnections.Count}");
+                foreach (var conn in otherConnections)
+                {
+                    Console.WriteLine($"      - {conn.ConnectionId} ({conn.DeviceName ?? conn.DeviceInfo})");
+                }
+            }
 
             // Gửi event StopPlayback (cho mobile compatibility)
+            Console.WriteLine($"   Sending StopPlayback to group user_{userId} except {Context.ConnectionId}");
             await Clients.GroupExcept($"user_{userId}", Context.ConnectionId)
                 .SendAsync("StopPlayback", Context.ConnectionId);
 
@@ -147,16 +154,27 @@ namespace MyWebApp.Api.Hubs
                 {
                     reason = "Playing on another device",
                     device = deviceInfo,
+                    deviceName = deviceInfo,
                     songId = songId,
                     songName = songName
                 });
 
             Console.WriteLine($"   ✅ Sent StopPlayback + PausePlayback to other devices");
 
-            // Update session
+            // Update session và reset các thiết bị khác
             lock (LockObject)
             {
-                if (UserSessions.TryGetValue(userId, out var session))
+                // Reset LastPlaybackTime của các thiết bị khác của cùng user
+                foreach (var kvp in ConnectionSessions)
+                {
+                    if (kvp.Value.UserId == userId && kvp.Value.ConnectionId != Context.ConnectionId)
+                    {
+                        kvp.Value.LastPlaybackTime = null;
+                    }
+                }
+                
+                // Update thiết bị hiện tại
+                if (ConnectionSessions.TryGetValue(Context.ConnectionId, out var session))
                 {
                     session.CurrentSongId = songId;
                     session.CurrentSongName = songName;
@@ -183,10 +201,23 @@ namespace MyWebApp.Api.Hubs
             string displayName = !string.IsNullOrEmpty(deviceName) ? deviceName : GetDeviceInfo();
             
             Console.WriteLine($"🎵 [PlaybackHub] Device {deviceId} (User: {userId}, Name: {displayName}) started playback");
-            Console.WriteLine($"   Notifying other connections to stop");
+            Console.WriteLine($"   Current ConnectionId: {Context.ConnectionId}");
+            
+            // Log các connections khác trong group
+            lock (LockObject)
+            {
+                var otherConnections = ConnectionSessions.Values
+                    .Where(s => s.UserId == userId && s.ConnectionId != Context.ConnectionId)
+                    .ToList();
+                Console.WriteLine($"   Other connections in group: {otherConnections.Count}");
+                foreach (var conn in otherConnections)
+                {
+                    Console.WriteLine($"      - {conn.ConnectionId} ({conn.DeviceName ?? conn.DeviceInfo})");
+                }
+            }
 
             // Gửi lệnh StopPlayback đến TẤT CẢ kết nối khác của cùng user
-            // Clients.Others = tất cả kết nối trừ kết nối hiện tại
+            Console.WriteLine($"   Sending StopPlayback to group user_{userId} except {Context.ConnectionId}");
             await Clients.GroupExcept($"user_{userId}", Context.ConnectionId)
                 .SendAsync("StopPlayback", deviceId);
 
@@ -196,6 +227,7 @@ namespace MyWebApp.Api.Hubs
                 {
                     reason = "Playing on another device",
                     device = displayName,
+                    deviceName = displayName,
                     songId = "",
                     songName = "",
                     sourceDeviceId = deviceId
@@ -203,10 +235,20 @@ namespace MyWebApp.Api.Hubs
 
             Console.WriteLine($"   ✅ Sent StopPlayback event to other devices");
 
-            // Update session với tên thiết bị
+            // Update session với tên thiết bị và reset các thiết bị khác
             lock (LockObject)
             {
-                if (UserSessions.TryGetValue(userId, out var session))
+                // Reset LastPlaybackTime của các thiết bị khác của cùng user
+                foreach (var kvp in ConnectionSessions)
+                {
+                    if (kvp.Value.UserId == userId && kvp.Value.ConnectionId != Context.ConnectionId)
+                    {
+                        kvp.Value.LastPlaybackTime = null;
+                    }
+                }
+                
+                // Update thiết bị hiện tại
+                if (ConnectionSessions.TryGetValue(Context.ConnectionId, out var session))
                 {
                     session.DeviceId = deviceId;
                     session.DeviceName = displayName;
@@ -222,18 +264,21 @@ namespace MyWebApp.Api.Hubs
             if (string.IsNullOrEmpty(userId))
                 return;
 
+            // Kiểm tra xem có thiết bị nào khác đang phát không
             lock (LockObject)
             {
-                if (UserSessions.TryGetValue(userId, out var session))
+                foreach (var kvp in ConnectionSessions)
                 {
-                    // Check if there's another active connection
-                    if (session.ConnectionId != Context.ConnectionId)
+                    if (kvp.Value.UserId == userId && 
+                        kvp.Value.ConnectionId != Context.ConnectionId &&
+                        kvp.Value.LastPlaybackTime.HasValue &&
+                        (DateTime.UtcNow - kvp.Value.LastPlaybackTime.Value).TotalMinutes < 5)
                     {
-                        // This is not the active device
+                        // Có thiết bị khác đang phát
                         Clients.Caller.SendAsync("PlaybackDenied", new
                         {
                             reason = "Playback is active on another device",
-                            activeDevice = session.DeviceInfo,
+                            activeDevice = kvp.Value.DeviceName ?? kvp.Value.DeviceInfo,
                             canTakeover = true
                         });
                         return;
@@ -253,25 +298,25 @@ namespace MyWebApp.Api.Hubs
 
             lock (LockObject)
             {
-                if (UserSessions.TryGetValue(userId, out var oldSession))
+                // Thông báo cho tất cả thiết bị khác của user này
+                foreach (var kvp in ConnectionSessions)
                 {
-                    // Notify old device
-                    Clients.Client(oldSession.ConnectionId)
-                        .SendAsync("SessionTakenOver", new
-                        {
-                            newDevice = GetDeviceInfo(),
-                            message = "Playback taken over by another device"
-                        });
+                    if (kvp.Value.UserId == userId && kvp.Value.ConnectionId != Context.ConnectionId)
+                    {
+                        Clients.Client(kvp.Value.ConnectionId)
+                            .SendAsync("SessionTakenOver", new
+                            {
+                                newDevice = GetDeviceInfo(),
+                                message = "Playback taken over by another device"
+                            });
+                    }
                 }
 
-                // Update to new session
-                UserSessions[userId] = new PlaybackSession
+                // Update session hiện tại
+                if (ConnectionSessions.TryGetValue(Context.ConnectionId, out var session))
                 {
-                    UserId = userId,
-                    ConnectionId = Context.ConnectionId,
-                    DeviceInfo = GetDeviceInfo(),
-                    ConnectedAt = DateTime.UtcNow
-                };
+                    session.LastPlaybackTime = DateTime.UtcNow;
+                }
             }
 
             await Clients.Caller.SendAsync("TakeoverSuccess", new
@@ -300,19 +345,13 @@ namespace MyWebApp.Api.Hubs
 
         private string GetDeviceInfo()
         {
-            var userId = GetUserId();
-            
             // Check if device has custom name registered
-            if (!string.IsNullOrEmpty(userId))
+            lock (LockObject)
             {
-                lock (LockObject)
+                if (ConnectionSessions.TryGetValue(Context.ConnectionId, out var session) 
+                    && !string.IsNullOrEmpty(session.DeviceName))
                 {
-                    if (UserSessions.TryGetValue(userId, out var session) 
-                        && session.ConnectionId == Context.ConnectionId
-                        && !string.IsNullOrEmpty(session.DeviceName))
-                    {
-                        return session.DeviceName;
-                    }
+                    return session.DeviceName;
                 }
             }
 
@@ -335,6 +374,162 @@ namespace MyWebApp.Api.Hubs
                 return "Safari Browser";
             else
                 return "Web Browser";
+        }
+
+        /// <summary>
+        /// Lấy danh sách tất cả thiết bị đang kết nối của user hiện tại
+        /// </summary>
+        public async Task<List<object>> GetConnectedDevices()
+        {
+            var userId = GetUserId();
+            var devices = new List<object>();
+
+            Console.WriteLine($"[MusicPlaybackHub] GetConnectedDevices called");
+            Console.WriteLine($"   Current UserId: {userId}");
+            Console.WriteLine($"   Current ConnectionId: {Context.ConnectionId}");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                Console.WriteLine($"   ⚠️ UserId is null or empty!");
+                return devices;
+            }
+
+            lock (LockObject)
+            {
+                Console.WriteLine($"   Total sessions in memory: {ConnectionSessions.Count}");
+                
+                // Log tất cả sessions để debug
+                foreach (var kvp in ConnectionSessions)
+                {
+                    Console.WriteLine($"   Session: ConnId={kvp.Key}, UserId={kvp.Value.UserId}, Device={kvp.Value.DeviceInfo}");
+                }
+                
+                // Lấy tất cả sessions của user này
+                foreach (var kvp in ConnectionSessions)
+                {
+                    if (kvp.Value.UserId == userId)
+                    {
+                        var isActive = kvp.Value.LastPlaybackTime.HasValue && 
+                                       (DateTime.UtcNow - kvp.Value.LastPlaybackTime.Value).TotalMinutes < 5;
+                        
+                        Console.WriteLine($"   Device: {kvp.Value.DeviceName ?? kvp.Value.DeviceInfo}");
+                        Console.WriteLine($"      LastPlaybackTime: {kvp.Value.LastPlaybackTime}");
+                        Console.WriteLine($"      isActive: {isActive}");
+                        
+                        devices.Add(new
+                        {
+                            deviceId = kvp.Value.DeviceId ?? kvp.Value.ConnectionId,
+                            deviceName = kvp.Value.DeviceName ?? kvp.Value.DeviceInfo,
+                            connectionId = kvp.Value.ConnectionId,
+                            isActive = isActive,
+                            isCurrentDevice = kvp.Value.ConnectionId == Context.ConnectionId,
+                            currentSong = new
+                            {
+                                songId = kvp.Value.CurrentSongId,
+                                songName = kvp.Value.CurrentSongName
+                            }
+                        });
+                    }
+                }
+            }
+
+            Console.WriteLine($"   ✅ Found {devices.Count} devices for user {userId}");
+            
+            return await Task.FromResult(devices);
+        }
+
+        /// <summary>
+        /// Đồng bộ vị trí phát nhạc đến các thiết bị khác
+        /// </summary>
+        public async Task SyncPlaybackPosition(string songId, int positionMs, bool isPlaying)
+        {
+            var userId = GetUserId();
+            if (string.IsNullOrEmpty(userId)) return;
+
+            // Broadcast đến tất cả thiết bị khác của user này
+            await Clients.GroupExcept($"user_{userId}", Context.ConnectionId)
+                .SendAsync("PlaybackPositionSync", new
+                {
+                    songId = songId,
+                    positionMs = positionMs,
+                    isPlaying = isPlaying
+                });
+        }
+
+        /// <summary>
+        /// Chuyển phát nhạc sang thiết bị khác
+        /// </summary>
+        public async Task TransferPlayback(string targetDeviceId, string songId, int positionMs, bool isPlaying, string? songName = null, string? imageUrl = null, string? artistName = null)
+        {
+            var userId = GetUserId();
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                Console.WriteLine($"⚠️ [MusicPlaybackHub] TransferPlayback: User not authenticated");
+                return;
+            }
+
+            Console.WriteLine($"🔄 [MusicPlaybackHub] TransferPlayback requested");
+            Console.WriteLine($"   User: {userId}");
+            Console.WriteLine($"   Target Device: {targetDeviceId}");
+            Console.WriteLine($"   Song: {songId}");
+            Console.WriteLine($"   Position: {positionMs}ms");
+            Console.WriteLine($"   IsPlaying: {isPlaying}");
+            Console.WriteLine($"   SongName: {songName}");
+            Console.WriteLine($"   ImageUrl: {imageUrl}");
+            Console.WriteLine($"   ArtistName: {artistName}");
+
+            string? targetConnectionId = null;
+
+            lock (LockObject)
+            {
+                // Tìm connectionId của thiết bị đích
+                foreach (var kvp in ConnectionSessions)
+                {
+                    if (kvp.Value.UserId == userId && 
+                        (kvp.Value.DeviceId == targetDeviceId || kvp.Value.ConnectionId == targetDeviceId))
+                    {
+                        targetConnectionId = kvp.Value.ConnectionId;
+                        break;
+                    }
+                }
+            }
+
+            if (targetConnectionId == null)
+            {
+                Console.WriteLine($"❌ [MusicPlaybackHub] Target device not found: {targetDeviceId}");
+                await Clients.Caller.SendAsync("TransferPlaybackResult", new
+                {
+                    success = false,
+                    message = "Target device not found"
+                });
+                return;
+            }
+
+            // Gửi lệnh dừng phát cho tất cả thiết bị khác (bao gồm thiết bị hiện tại)
+            await Clients.GroupExcept($"user_{userId}", targetConnectionId)
+                .SendAsync("StopPlayback", targetDeviceId);
+
+            // Gửi lệnh phát nhạc đến thiết bị đích
+            await Clients.Client(targetConnectionId).SendAsync("StartPlaybackRemote", new
+            {
+                songId = songId,
+                positionMs = positionMs,
+                isPlaying = isPlaying,
+                sourceDevice = GetDeviceInfo(),
+                songName = songName ?? "",
+                imageUrl = imageUrl ?? "",
+                artistName = artistName ?? ""
+            });
+
+            Console.WriteLine($"✅ [MusicPlaybackHub] Playback transferred to {targetDeviceId}");
+
+            await Clients.Caller.SendAsync("TransferPlaybackResult", new
+            {
+                success = true,
+                message = "Playback transferred successfully",
+                targetDevice = targetDeviceId
+            });
         }
     }
 

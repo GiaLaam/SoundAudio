@@ -55,10 +55,47 @@ class PlaybackSessionManager {
             this.isConnected = true;
             console.log('[PlaybackSession] Connected to SignalR hub');
             console.log('[PlaybackSession] UserId:', tokenData.userId);
+
+            // Register device with server
+            await this.registerDevice();
             
         } catch (error) {
             console.error('[PlaybackSession] Connection error:', error);
         }
+    }
+
+    async registerDevice() {
+        if (!this.isConnected) return;
+
+        try {
+            const deviceId = this.getDeviceId();
+            const deviceName = this.getDeviceName();
+            
+            console.log('[PlaybackSession] Registering device:', deviceName);
+            
+            await this.connection.invoke('RegisterDevice', deviceId, deviceName, 'Web');
+            console.log('[PlaybackSession] Device registered successfully');
+        } catch (error) {
+            console.error('[PlaybackSession] Failed to register device:', error);
+        }
+    }
+
+    getDeviceId() {
+        let deviceId = localStorage.getItem('playback_device_id');
+        if (!deviceId) {
+            deviceId = 'web_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('playback_device_id', deviceId);
+        }
+        return deviceId;
+    }
+
+    getDeviceName() {
+        const userAgent = navigator.userAgent;
+        if (userAgent.includes('Edg')) return 'Microsoft Edge';
+        if (userAgent.includes('Chrome')) return 'Google Chrome';
+        if (userAgent.includes('Firefox')) return 'Mozilla Firefox';
+        if (userAgent.includes('Safari')) return 'Safari';
+        return 'Web Browser';
     }
 
     setupEventHandlers() {
@@ -126,6 +163,107 @@ class PlaybackSessionManager {
         this.connection.on('TakeoverSuccess', (data) => {
             console.log('[PlaybackSession] Takeover success:', data);
             this.showSuccessNotification('Bạn đang phát nhạc trên thiết bị này');
+        });
+
+        // StartPlaybackRemote - khi được yêu cầu phát nhạc từ thiết bị khác
+        this.connection.on('StartPlaybackRemote', async (data) => {
+            console.log('[PlaybackSession] StartPlaybackRemote received:', data);
+            
+            const songId = data.songId;
+            const positionMs = data.positionMs || 0;
+            const shouldPlay = data.isPlaying !== false;
+            const sourceDevice = data.sourceDevice || 'Another device';
+            const songName = data.songName || '';
+            const imageUrl = data.imageUrl || '';
+            const artistName = data.artistName || '';
+            
+            if (songId) {
+                console.log(`[PlaybackSession] Starting playback: songId=${songId}, position=${positionMs}ms`);
+                console.log(`[PlaybackSession] Song info: name=${songName}, image=${imageUrl}`);
+                
+                // Kiểm tra xem bài hát có trong playlist hiện tại không
+                let foundInPlaylist = false;
+                if (window.currentPlaylist && window.currentPlaylist.length > 0) {
+                    const idx = window.currentPlaylist.findIndex(s => s.id === songId || s.id === parseInt(songId));
+                    if (idx !== -1) {
+                        foundInPlaylist = true;
+                        window.currentPlaylistIndex = idx;
+                        console.log(`[PlaybackSession] Found song in current playlist at index ${idx}`);
+                    }
+                }
+                
+                // Nếu không có trong playlist, fetch tất cả bài hát từ API
+                if (!foundInPlaylist) {
+                    try {
+                        const apiBaseUrl = document.body.getAttribute('data-api-base') || 'http://localhost:5289';
+                        console.log('[PlaybackSession] Fetching all songs from API...');
+                        const response = await fetch(`${apiBaseUrl}/api/music`);
+                        if (response.ok) {
+                            const songs = await response.json();
+                            console.log(`[PlaybackSession] Fetched ${songs.length} songs`);
+                            
+                            // Tìm index của bài hát
+                            const idx = songs.findIndex(s => s.id === songId || s.id === parseInt(songId));
+                            if (idx !== -1 && window.setPlaylist) {
+                                window.setPlaylist(songs, idx);
+                                console.log(`[PlaybackSession] Set playlist with ${songs.length} songs, starting at index ${idx}`);
+                            }
+                        }
+                    } catch (error) {
+                        console.error('[PlaybackSession] Error fetching songs:', error);
+                    }
+                }
+                
+                // Gọi hàm play của player với thông tin bài hát
+                if (window.playSong) {
+                    window.playSong(songId, songName, artistName, imageUrl);
+                    
+                    // Seek đến vị trí sau khi load
+                    const audio = document.getElementById('audioElement');
+                    if (audio) {
+                        audio.addEventListener('loadedmetadata', function onLoaded() {
+                            audio.currentTime = positionMs / 1000;
+                            if (shouldPlay) {
+                                audio.play();
+                            }
+                            audio.removeEventListener('loadedmetadata', onLoaded);
+                        });
+                    }
+                    
+                    this.showSuccessNotification(`Đã chuyển từ ${sourceDevice}`);
+                }
+            }
+        });
+
+        // PlaybackPositionSync - đồng bộ vị trí từ thiết bị khác
+        this.connection.on('PlaybackPositionSync', (data) => {
+            const audio = document.getElementById('audioElement');
+            // Chỉ cập nhật UI nếu đang không phát
+            if (audio && audio.paused) {
+                const positionMs = data.positionMs || 0;
+                const isPlaying = data.isPlaying;
+                
+                // Cập nhật thanh progress (không seek audio)
+                if (audio.duration && !isNaN(audio.duration)) {
+                    const progress = (positionMs / 1000 / audio.duration) * 100;
+                    const progressFill = document.querySelector('.progress-fill');
+                    if (progressFill) {
+                        progressFill.style.width = progress + '%';
+                    }
+                    
+                    // Cập nhật thời gian hiển thị
+                    const currentTimeEl = document.getElementById('currentTime');
+                    if (currentTimeEl) {
+                        const seconds = Math.floor(positionMs / 1000);
+                        const mins = Math.floor(seconds / 60);
+                        const secs = seconds % 60;
+                        currentTimeEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                    }
+                }
+                
+                // Lưu remote position để khi resume có thể seek đến đó
+                window.remotePosition = positionMs;
+            }
         });
 
         // Reconnection handlers
@@ -317,6 +455,163 @@ class PlaybackSessionManager {
 
     onSessionReplaced(callback) {
         this.onSessionReplacedCallback = callback;
+    }
+
+    // Lấy danh sách thiết bị đang kết nối
+    async getConnectedDevices() {
+        if (!this.isConnected) {
+            console.log('[PlaybackSession] Not connected, cannot get devices');
+            return [];
+        }
+
+        try {
+            const devices = await this.connection.invoke('GetConnectedDevices');
+            console.log('[PlaybackSession] Connected devices:', devices);
+            return devices || [];
+        } catch (error) {
+            console.error('[PlaybackSession] Error getting devices:', error);
+            return [];
+        }
+    }
+
+    // Gửi đồng bộ vị trí phát đến các thiết bị khác
+    async syncPlaybackPosition(songId, positionMs, isPlaying) {
+        if (!this.isConnected) return;
+
+        try {
+            await this.connection.invoke('SyncPlaybackPosition', songId, positionMs, isPlaying);
+        } catch (error) {
+            // Ignore errors - sync is not critical
+        }
+    }
+
+    // Chuyển phát nhạc sang thiết bị khác
+    async transferPlayback(targetDeviceId, songId, positionMs, isPlaying, songName = '', imageUrl = '', artistName = '') {
+        if (!this.isConnected) {
+            console.log('[PlaybackSession] Not connected, cannot transfer playback');
+            return false;
+        }
+
+        try {
+            await this.connection.invoke('TransferPlayback', targetDeviceId, songId, positionMs, isPlaying, songName, imageUrl, artistName);
+            console.log('[PlaybackSession] Playback transfer requested with song info:', { songName, imageUrl, artistName });
+            return true;
+        } catch (error) {
+            console.error('[PlaybackSession] Error transferring playback:', error);
+            return false;
+        }
+    }
+
+    // Hiển thị dialog chọn thiết bị
+    async showDevicesDialog() {
+        console.log('[PlaybackSession] showDevicesDialog called');
+        console.log('[PlaybackSession] isConnected:', this.isConnected);
+        
+        const devices = await this.getConnectedDevices();
+        console.log('[PlaybackSession] Devices received:', devices);
+        
+        // Tạo modal
+        const modal = document.createElement('div');
+        modal.className = 'devices-modal';
+        modal.innerHTML = `
+            <div class="devices-modal-content">
+                <div class="devices-header">
+                    <i class="fas fa-devices" style="color: #1DB954; font-size: 24px;"></i>
+                    <h3>Thiết bị phát nhạc</h3>
+                    <button class="devices-close-btn" onclick="this.closest('.devices-modal').remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="devices-list">
+                    ${devices.length === 0 ? `
+                        <div class="no-devices">
+                            <i class="fas fa-mobile-alt"></i>
+                            <p>Không tìm thấy thiết bị nào</p>
+                            <small>Đăng nhập trên thiết bị khác để xem ở đây</small>
+                        </div>
+                    ` : devices.map(device => `
+                        <div class="device-item ${device.isCurrentDevice ? 'current' : ''}" 
+                             data-device-id="${device.deviceId}"
+                             data-connection-id="${device.connectionId}">
+                            <div class="device-icon">
+                                <i class="fas ${this.getDeviceIcon(device.deviceName)}"></i>
+                            </div>
+                            <div class="device-info">
+                                <div class="device-name">${device.deviceName}</div>
+                                ${device.isCurrentDevice ? '<div class="device-status">Thiết bị này</div>' : ''}
+                                ${device.isActive && !device.isCurrentDevice ? '<div class="device-status active">Đang phát</div>' : ''}
+                                ${device.currentSong && device.currentSong.songName ? 
+                                    `<div class="device-song">${device.currentSong.songName}</div>` : ''}
+                            </div>
+                            ${device.isActive ? '<div class="device-playing"><i class="fas fa-volume-up"></i></div>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        setTimeout(() => modal.classList.add('show'), 100);
+
+        // Click vào thiết bị để chuyển phát nhạc
+        modal.querySelectorAll('.device-item:not(.current)').forEach(item => {
+            item.addEventListener('click', async () => {
+                const deviceId = item.dataset.connectionId || item.dataset.deviceId;
+                const audio = document.getElementById('audioElement');
+                const songId = window.currentPlayingSongId || '';
+                const positionMs = audio ? Math.floor(audio.currentTime * 1000) : 0;
+                const isPlaying = audio ? !audio.paused : false;
+                
+                // Lấy thêm thông tin bài hát
+                const songNameEl = document.querySelector('.song-name, .player-info h4, #playerSongName');
+                const artistEl = document.querySelector('.artist-name, .player-info p, #playerArtist');
+                const thumbnailEl = document.querySelector('.player-thumbnail img, #playerThumbnail');
+                
+                const songName = songNameEl?.textContent || '';
+                const artistName = artistEl?.textContent || '';
+                const imageUrl = thumbnailEl?.src || '';
+
+                item.classList.add('loading');
+                item.innerHTML += '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>';
+
+                const success = await this.transferPlayback(deviceId, songId, positionMs, isPlaying, songName, imageUrl, artistName);
+                
+                if (success) {
+                    // Dừng phát nhạc trên thiết bị này sau khi transfer
+                    if (audio) {
+                        audio.pause();
+                    }
+                    
+                    modal.remove();
+                    this.showSuccessNotification(`Đã chuyển sang ${item.querySelector('.device-name').textContent}`);
+                } else {
+                    item.classList.remove('loading');
+                    item.querySelector('.loading-spinner')?.remove();
+                }
+            });
+        });
+
+        // Click overlay để đóng
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+    }
+
+    getDeviceIcon(deviceName) {
+        const name = (deviceName || '').toLowerCase();
+        if (name.includes('iphone') || name.includes('mobile') || name.includes('phone')) {
+            return 'fa-mobile-alt';
+        } else if (name.includes('ipad') || name.includes('tablet')) {
+            return 'fa-tablet-alt';
+        } else if (name.includes('mac') || name.includes('laptop') || name.includes('pc')) {
+            return 'fa-laptop';
+        } else if (name.includes('chrome') || name.includes('firefox') || name.includes('edge') || name.includes('safari') || name.includes('web')) {
+            return 'fa-globe';
+        }
+        return 'fa-desktop';
     }
 }
 

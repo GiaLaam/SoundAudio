@@ -34,9 +34,19 @@ namespace MyWebApp.Mvc.Services
             var response = await _httpClient.GetAsync(endpoint);
             
             if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine($"[ApiService] GET {endpoint} failed with status: {(int)response.StatusCode}");
                 return default;
+            }
 
             var content = await response.Content.ReadAsStringAsync();
+            
+            // Check if response is valid JSON
+            if (string.IsNullOrWhiteSpace(content) || (!content.TrimStart().StartsWith("{") && !content.TrimStart().StartsWith("[")))
+            {
+                Console.WriteLine($"[ApiService] GET {endpoint} returned non-JSON response: {content.Substring(0, Math.Min(100, content.Length))}");
+                return default;
+            }
             
             // Try to deserialize as ApiResponse<T> first (for wrapped responses)
             try
@@ -57,10 +67,18 @@ namespace MyWebApp.Mvc.Services
             }
             
             // Fallback to direct deserialization
-            return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions 
-            { 
-                PropertyNameCaseInsensitive = true 
-            });
+            try
+            {
+                return JsonSerializer.Deserialize<T>(content, new JsonSerializerOptions 
+                { 
+                    PropertyNameCaseInsensitive = true 
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[ApiService] Failed to deserialize response from {endpoint}: {ex.Message}");
+                return default;
+            }
         }
 
         // Generic POST method with ApiResponse unwrapping
@@ -151,10 +169,23 @@ namespace MyWebApp.Mvc.Services
         public async Task<TResponse?> PostMultipartAsync<TResponse>(string endpoint, MultipartFormDataContent content)
         {
             SetAuthToken();
+            
+            // Debug log
+            var hasAuth = _httpClient.DefaultRequestHeaders.Authorization != null;
+            Console.WriteLine($"[ApiService] PostMultipartAsync to {endpoint}");
+            Console.WriteLine($"[ApiService] Has Authorization header: {hasAuth}");
+            if (hasAuth)
+                Console.WriteLine($"[ApiService] Auth scheme: {_httpClient.DefaultRequestHeaders.Authorization?.Scheme}");
+            
             var response = await _httpClient.PostAsync(endpoint, content);
+            Console.WriteLine($"[ApiService] Response status: {(int)response.StatusCode} {response.StatusCode}");
             
             if (!response.IsSuccessStatusCode)
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Console.WriteLine($"[ApiService] Error response: {errorContent.Substring(0, Math.Min(500, errorContent.Length))}");
                 return default;
+            }
 
             var responseContent = await response.Content.ReadAsStringAsync();
             
@@ -174,6 +205,43 @@ namespace MyWebApp.Mvc.Services
             catch
             {
                 // If it fails, try direct deserialization
+            }
+            
+            return JsonSerializer.Deserialize<TResponse>(responseContent, new JsonSerializerOptions 
+            { 
+                PropertyNameCaseInsensitive = true 
+            });
+        }
+
+        // Multipart form data for PUT requests
+        public async Task<TResponse?> PutMultipartAsync<TResponse>(string endpoint, MultipartFormDataContent content)
+        {
+            SetAuthToken();
+            var request = new HttpRequestMessage(HttpMethod.Put, endpoint)
+            {
+                Content = content
+            };
+            var response = await _httpClient.SendAsync(request);
+            
+            if (!response.IsSuccessStatusCode)
+                return default;
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            
+            try
+            {
+                var apiResponse = JsonSerializer.Deserialize<ApiResponse<TResponse>>(responseContent, new JsonSerializerOptions 
+                { 
+                    PropertyNameCaseInsensitive = true 
+                });
+                
+                if (apiResponse != null && apiResponse.Success)
+                {
+                    return apiResponse.Data;
+                }
+            }
+            catch
+            {
             }
             
             return JsonSerializer.Deserialize<TResponse>(responseContent, new JsonSerializerOptions 

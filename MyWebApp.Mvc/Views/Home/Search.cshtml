@@ -1,122 +1,115 @@
-﻿@using Microsoft.Extensions.Configuration
+@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 @model List<MyWebApp.Models.MusicFile>
 @{
-    ViewData["Title"] = "Trang chủ";
+    ViewData["Title"] = "Kết quả tìm kiếm";
     var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
     var albums = ViewBag.Albums as List<MyWebApp.Models.Album> ?? new List<MyWebApp.Models.Album>();
+    var searchQuery = ViewBag.SearchQuery as string ?? "";
 }
 
-<!-- Albums Section -->
-@if (albums.Any())
-{
-    <section class="section">
-        <div class="section-header">
-            <h2 class="section-title">Albums</h2>
-            <a href="/Album" class="view-all">Xem tất cả</a>
-        </div>
-        <div class="grid">
-            @foreach (var album in albums.Take(6))
+<div class="search-page">
+    <!-- Search Header -->
+    <div class="search-header">
+        <h1 class="search-title">
+            @if (!string.IsNullOrEmpty(searchQuery))
             {
-                <div class="card" 
-                     data-album-id="@album.Id"
-                     onclick="window.location.href='/Album/Details/@album.Id'">
-                    <div class="card-image">
-                        @if (!string.IsNullOrEmpty(album.ImageUrl))
-                        {
-                            <img src="@(apiBaseUrl + album.ImageUrl)" alt="@album.Name" />
-                        }
-                        else
-                        {
-                            <div class="card-placeholder">
-                                <i class="fas fa-compact-disc"></i>
-                            </div>
-                        }
-                        <button class="play-btn" onclick="event.stopPropagation();"><i class="fas fa-play"></i></button>
-                    </div>
-                    <div class="card-title">@album.Name</div>
-                    <div class="card-subtitle">Album</div>
-                </div>
+                <span>Kết quả tìm kiếm cho "</span><span class="search-query">@searchQuery</span><span>"</span>
             }
-        </div>
-    </section>
-}
-
-<!-- Top Songs Section -->
-@if (Model != null && Model.Any())
-{
-    <section class="section">
-        <div class="section-header">
-            <h2 class="section-title">Bài hát phổ biến</h2>
-        </div>
-        <div class="list-view">
-            @for (int i = 0; i < Math.Min(10, Model.Count); i++)
+            else
             {
-                var song = Model[i];
-                <div class="list-item" 
-                     data-song-id="@song.Id" 
-                     data-song-name="@song.NameSong" 
-                     data-song-artist="Unknown Artist" 
-                     data-song-image="@song.ImageUrl"
-                     style="cursor: pointer;">
-                    <div class="song-number">@(i + 1)</div>
-                    <div class="song-info">
-                        <div class="song-image">
-                            <img src="@(string.IsNullOrEmpty(song.ImageUrl) ? "/images/logo.png" : apiBaseUrl + song.ImageUrl)" alt="@song.NameSong" />
-                        </div>
-                        <div class="song-details">
-                            <div class="song-name">@song.NameSong</div>
-                        </div>
-                    </div>
-                    <div class="song-actions">
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
-                            <button class="action-btn add-to-playlist-btn" data-song-id="@song.Id" title="Thêm vào playlist" onclick="event.stopPropagation();">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        }
-                    </div>
-                </div>
+                <span>Tất cả nội dung</span>
             }
-        </div>
-    </section>
+        </h1>
+        <p class="search-summary">
+            Tìm thấy <strong>@Model.Count</strong> bài hát và <strong>@albums.Count</strong> album
+        </p>
+    </div>
 
-    <!-- All Songs Section -->
-    @if (Model.Count > 10)
+    <!-- Albums Section -->
+    @if (albums.Any())
     {
         <section class="section">
             <div class="section-header">
-                <h2 class="section-title">Tất cả bài hát</h2>
+                <h2 class="section-title">Albums</h2>
             </div>
             <div class="grid">
-                @for (int i = 10; i < Model.Count; i++)
+                @foreach (var album in albums)
                 {
-                    var song = Model[i];
                     <div class="card" 
-                         data-song-id="@song.Id" 
-                         data-song-name="@song.NameSong" 
-                         data-song-artist="Unknown Artist" 
-                         data-song-image="@song.ImageUrl">
+                         data-album-id="@album.Id"
+                         onclick="window.location.href='/Album/Details/@album.Id'">
                         <div class="card-image">
-                            <img src="@(string.IsNullOrEmpty(song.ImageUrl) ? "/images/logo.png" : apiBaseUrl + song.ImageUrl)" alt="@song.NameSong" />
-                            <button class="play-btn"><i class="fas fa-play"></i></button>
+                            @if (!string.IsNullOrEmpty(album.ImageUrl))
+                            {
+                                <img src="@(apiBaseUrl + album.ImageUrl)" alt="@album.Name" />
+                            }
+                            else
+                            {
+                                <div class="card-placeholder">
+                                    <i class="fas fa-compact-disc"></i>
+                                </div>
+                            }
+                            <button class="play-btn" onclick="event.stopPropagation();"><i class="fas fa-play"></i></button>
                         </div>
-                        <div class="card-title">@song.NameSong</div>
-                        <div class="card-subtitle">Bài hát</div>
+                        <div class="card-title">@album.Name</div>
+                        <div class="card-subtitle">Album</div>
                     </div>
                 }
             </div>
         </section>
     }
-}
-else
-{
-    <section class="section" style="text-align: center; padding: 60px 20px;">
-        <i class="fas fa-music" style="font-size: 64px; color: var(--spotify-light-gray); margin-bottom: 20px;"></i>
-        <h2 style="color: var(--spotify-light-gray);">Chưa có bài hát nào</h2>
-        <p style="color: var(--spotify-light-gray);">Hệ thống đang được cập nhật...</p>
-    </section>
-}
+
+    <!-- Songs Section -->
+    @if (Model != null && Model.Any())
+    {
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Bài hát</h2>
+            </div>
+            <div class="list-view">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var song = Model[i];
+                    <div class="list-item" 
+                         data-song-id="@song.Id" 
+                         data-song-name="@song.NameSong" 
+                         data-song-artist="Unknown Artist" 
+                         data-song-image="@song.ImageUrl"
+                         style="cursor: pointer;">
+                        <div class="song-number">@(i + 1)</div>
+                        <div class="song-info">
+                            <div class="song-image">
+                                <img src="@(string.IsNullOrEmpty(song.ImageUrl) ? "/images/logo.png" : apiBaseUrl + song.ImageUrl)" alt="@song.NameSong" />
+                            </div>
+                            <div class="song-details">
+                                <div class="song-name">@song.NameSong</div>
+                            </div>
+                        </div>
+                        <div class="song-actions">
+                            @if (User.Identity?.IsAuthenticated == true)
+                            {
+                                <button class="action-btn add-to-playlist-btn" data-song-id="@song.Id" title="Thêm vào playlist" onclick="event.stopPropagation();">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    }
+
+    <!-- No Results -->
+    @if ((Model == null || !Model.Any()) && !albums.Any())
+    {
+        <section class="section" style="text-align: center; padding: 80px 20px;">
+            <i class="fas fa-search" style="font-size: 64px; color: var(--spotify-light-gray); margin-bottom: 20px; opacity: 0.5;"></i>
+            <h2 style="color: var(--spotify-white); margin-bottom: 10px;">Không tìm thấy kết quả</h2>
+            <p style="color: var(--spotify-light-gray);">Thử tìm kiếm với từ khóa khác</p>
+        </section>
+    }
+</div>
 
 <!-- Add to Playlist Modal -->
 @if (User.Identity?.IsAuthenticated == true)
@@ -135,6 +128,39 @@ else
             </div>
         </div>
     </div>
+}
+
+@section Styles {
+    <style>
+        .search-page {
+            padding: 20px 0;
+        }
+
+        .search-header {
+            margin-bottom: 32px;
+            padding: 0 20px;
+        }
+
+        .search-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--spotify-white);
+            margin-bottom: 8px;
+        }
+
+        .search-query {
+            color: var(--spotify-green);
+        }
+
+        .search-summary {
+            color: var(--spotify-light-gray);
+            font-size: 14px;
+        }
+
+        .search-summary strong {
+            color: var(--spotify-white);
+        }
+    </style>
 }
 
 @section Scripts {
@@ -238,4 +264,3 @@ else
         }
     </script>
 }
-

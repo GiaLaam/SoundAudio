@@ -16,7 +16,7 @@ namespace MyWebApp.Services
             _config = config;
         }
 
-        public Task<string> GenerateToken(ApplicationUser user)
+        public Task<string> GenerateToken(ApplicationUser user, IList<string>? roles = null)
         {
             var secretKey = _config["JwtSettings:SecretKey"];
             var issuer = _config["JwtSettings:Issuer"];
@@ -28,12 +28,21 @@ namespace MyWebApp.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email ?? ""),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            // Thêm roles vào claims
+            if (roles != null)
+            {
+                foreach (var role in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role));
+                }
+            }
 
             var token = new JwtSecurityToken(
                 issuer: issuer,

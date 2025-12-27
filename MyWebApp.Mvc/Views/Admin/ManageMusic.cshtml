@@ -4,62 +4,221 @@
 @{
     ViewData["Title"] = "Quản lý bài hát";
     var apiBaseUrl = Configuration["ApiSettings:BaseUrl"] ?? "http://localhost:5289";
+    var albums = ViewBag.Albums as List<MyWebApp.Models.Album> ?? new List<MyWebApp.Models.Album>();
+    var totalSongs = Model?.Count ?? 0;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <style>
+        .song-image-wrapper {
+            position: relative;
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+        }
+        
+        .song-image-wrapper .song-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            transition: filter 0.2s ease;
+        }
+        
+        .song-image-wrapper:hover .song-image {
+            filter: brightness(0.5);
+        }
+        
+        .play-btn-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: 32px;
+            background: var(--admin-green);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .song-image-wrapper:hover .play-btn-overlay {
+            opacity: 1;
+        }
+        
+        .play-btn-overlay:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: var(--admin-green-hover);
+        }
+        
+        .btn-action.play {
+            background: rgba(29, 185, 84, 0.15);
+            color: var(--admin-green);
+        }
+        
+        .btn-action.play:hover {
+            background: var(--admin-green);
+            color: white;
+        }
+        
+        .song-row {
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        
+        .song-row:hover {
+            background: var(--admin-surface-hover);
+        }
+        
+        .song-row.playing {
+            background: rgba(29, 185, 84, 0.1);
+        }
+        
+        .song-row.playing .song-name {
+            color: var(--admin-green);
+        }
+        
+        .song-row.playing .play-btn-overlay,
+        .song-row.playing .btn-action.play {
+            background: var(--admin-green);
+            color: #fff;
+        }
+        
+        .song-row.playing .play-btn-overlay i,
+        .song-row.playing .btn-action.play i {
+            animation: pulse 1s ease infinite;
+        }
+        
+        @@keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+}
+
+<!-- Toast Data -->
+@if (TempData["Success"] != null)
+{
+    <div data-toast-success="@TempData["Success"]" style="display:none;"></div>
+}
+@if (TempData["Error"] != null)
+{
+    <div data-toast-error="@TempData["Error"]" style="display:none;"></div>
 }
 
 <section class="section">
-    <div class="section-header">
-        <h2 class="section-title">Quản lý bài hát</h2>
-        <button class="primary-btn" onclick="openAddMusicModal()">
+    <!-- Header -->
+    <div class="admin-header">
+        <h2><i class="fas fa-music"></i> Quản lý bài hát</h2>
+        <button class="btn-primary" onclick="openModal('addMusicModal')">
             <i class="fas fa-plus"></i> Thêm bài hát
         </button>
     </div>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success" style="padding: 12px; background-color: rgba(29, 185, 84, 0.1); border: 1px solid var(--spotify-green); border-radius: 8px; margin-bottom: 20px; color: var(--spotify-green);">
-            @TempData["Success"]
+    <!-- Stats -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fas fa-music"></i>
+            </div>
+            <div>
+                <div class="stat-value">@totalSongs</div>
+                <div class="stat-label">Tổng bài hát</div>
+            </div>
         </div>
-    }
-
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger" style="padding: 12px; background-color: rgba(255, 0, 0, 0.1); border: 1px solid #ff0000; border-radius: 8px; margin-bottom: 20px; color: #ff0000;">
-            @TempData["Error"]
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fas fa-compact-disc"></i>
+            </div>
+            <div>
+                <div class="stat-value">@albums.Count</div>
+                <div class="stat-label">Album</div>
+            </div>
         </div>
-    }
+    </div>
 
-    <div class="table-container">
-        <table>
+    <!-- Filter by Album -->
+    <div class="admin-toolbar">
+        <select class="filter-select" id="albumFilter">
+            <option value="">Tất cả album</option>
+            @foreach (var album in albums)
+            {
+                <option value="@album.Id">@album.Name</option>
+            }
+        </select>
+    </div>
+
+    <!-- Table -->
+    <div class="admin-table-container">
+        <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Hình ảnh</th>
-                    <th>Tên bài hát</th>
-                    <th>ID Tác giả</th>
-                    <th>ID Album</th>
+                    <th data-sort="name" class="sortable">Bài hát</th>
+                    <th data-sort="album" class="sortable">Album</th>
+                    <th data-sort="date" class="sortable">Ngày tải lên</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="musicTableBody">
                 @if (Model != null && Model.Any())
                 {
                     @foreach (var song in Model)
                     {
-                        <tr>
+                        var albumObj = albums.FirstOrDefault(a => a.Id == song.AlbumId);
+                        var albumName = albumObj?.Name ?? "";
+                        var imageUrl = string.IsNullOrEmpty(song.ImageUrl) ? "/images/logo.png" : apiBaseUrl + song.ImageUrl;
+                        <tr data-id="@song.Id" 
+                            data-name="@song.NameSong" 
+                            data-album="@(song.AlbumId ?? "")"
+                            data-song-id="@song.Id"
+                            data-song-name="@song.NameSong"
+                            data-song-image="@song.ImageUrl"
+                            class="song-row">
                             <td>
-                                <img src="@(string.IsNullOrEmpty(song.ImageUrl) ? "/images/default-music.jpg" : apiBaseUrl + song.ImageUrl)" 
-                                     alt="@song.NameSong" 
-                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;" />
+                                <div class="song-cell">
+                                    <div class="song-image-wrapper">
+                                        <img src="@imageUrl" alt="@song.NameSong" class="song-image" />
+                                        <button class="play-btn-overlay" onclick="event.stopPropagation(); playSongAdmin('@song.Id', '@song.NameSong.Replace("'", "\\'")', '@song.ImageUrl')" title="Phát">
+                                            <i class="fas fa-play"></i>
+                                        </button>
+                                    </div>
+                                    <div class="song-info">
+                                        <span class="song-name">@song.NameSong</span>
+                                        <span class="song-file">@song.FileName</span>
+                                    </div>
+                                </div>
                             </td>
-                            <td>@song.NameSong</td>
-                            <td>@(song.AuthorId ?? "N/A")</td>
-                            <td>@(song.AlbumId ?? "N/A")</td>
                             <td>
-                                <button class="action-btn" onclick="editMusic('@song.Id')" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-btn" onclick="deleteMusic('@song.Id', '@song.NameSong')" title="Xóa" style="color: #ff0000;">
-                                    <i class="fas fa-trash"></i>
-                                </button>
+                                @if (!string.IsNullOrEmpty(albumName))
+                                {
+                                    <span class="album-badge">@albumName</span>
+                                }
+                                else
+                                {
+                                    <span class="album-badge empty">Chưa có album</span>
+                                }
+                            </td>
+                            <td class="date-cell">@song.UploadeAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-action play" onclick="event.stopPropagation(); playSongAdmin('@song.Id', '@song.NameSong.Replace("'", "\\'")', '@song.ImageUrl')" title="Phát">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <button class="btn-action edit" onclick="editMusic('@song.Id')" title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action delete" onclick="deleteMusic('@song.Id', '@song.NameSong.Replace("'", "\\'")' )" title="Xóa">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -67,85 +226,206 @@
                 else
                 {
                     <tr>
-                        <td colspan="5" style="text-align: center; color: var(--spotify-light-gray); padding: 40px;">
-                            Chưa có bài hát nào
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="fas fa-music"></i>
+                                <h3>Chưa có bài hát nào</h3>
+                                <p>Nhấn nút "Thêm bài hát" để bắt đầu</p>
+                            </div>
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        
+        <!-- Pagination -->
+        <div class="pagination-container" id="pagination">
+            <div class="pagination-info">
+                Hiển thị @totalSongs bài hát
+            </div>
+        </div>
     </div>
 </section>
 
 <!-- Add Music Modal -->
-<div id="addMusicModal" class="modal">
-    <div class="modal-content" style="max-width: 600px;">
-        <div class="modal-header">
-            <h3>Thêm bài hát mới</h3>
-            <button class="modal-close" onclick="closeAddMusicModal()">&times;</button>
+<div id="addMusicModal" class="admin-modal">
+    <div class="admin-modal-content">
+        <div class="admin-modal-header">
+            <h3><i class="fas fa-plus-circle"></i> Thêm bài hát mới</h3>
+            <button class="admin-modal-close" onclick="closeModal('addMusicModal')">×</button>
         </div>
-        <form asp-controller="Admin" asp-action="AddMusic" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label>Tên bài hát</label>
-                <input type="text" name="nameSong" required />
+        <form asp-controller="Admin" asp-action="AddMusic" method="post" enctype="multipart/form-data" id="addMusicForm">
+            <div class="admin-modal-body">
+                <div class="form-group">
+                    <label><i class="fas fa-heading"></i> Tên bài hát</label>
+                    <input type="text" name="nameSong" required placeholder="Nhập tên bài hát..." />
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-file-audio"></i> File nhạc (MP3)</label>
+                    <div class="file-upload" id="musicUpload">
+                        <div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <div class="file-upload-text">
+                            Kéo thả file hoặc <span>chọn file</span>
+                        </div>
+                        <input type="file" name="musicFile" accept=".mp3" required 
+                               onchange="document.getElementById('musicFileName').textContent = this.files[0]?.name || ''" />
+                    </div>
+                    <div id="musicFileName" style="margin-top: 8px; color: var(--admin-green); font-size: 13px;"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-image"></i> Hình ảnh (tùy chọn)</label>
+                    <div class="file-upload" id="imageUpload">
+                        <div class="file-upload-icon"><i class="fas fa-image"></i></div>
+                        <div class="file-upload-text">
+                            Kéo thả ảnh hoặc <span>chọn ảnh</span>
+                        </div>
+                        <input type="file" name="imageFile" accept="image/*" 
+                               onchange="previewImage(this, 'imagePreview')" />
+                    </div>
+                    <div class="image-preview" id="imagePreview"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-compact-disc"></i> Album (tùy chọn)</label>
+                    <select name="albumId">
+                        <option value="">-- Không có album --</option>
+                        @foreach (var album in albums)
+                        {
+                            <option value="@album.Id">@album.Name</option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <label>File nhạc (MP3)</label>
-                <input type="file" name="musicFile" accept=".mp3" required />
-            </div>
-            <div class="form-group">
-                <label>Hình ảnh</label>
-                <input type="file" name="imageFile" accept="image/*" />
-            </div>
-            <div class="modal-actions">
-                <button type="button" class="secondary-btn" onclick="closeAddMusicModal()">Hủy</button>
-                <button type="submit" class="primary-btn">Thêm</button>
+            <div class="admin-modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('addMusicModal')">
+                    <i class="fas fa-times"></i> Hủy
+                </button>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-upload"></i> Thêm bài hát
+                </button>
             </div>
         </form>
     </div>
 </div>
 
 @section Scripts {
+    <script src="~/js/admin.js"></script>
     <script>
-        function openAddMusicModal() {
-            document.getElementById('addMusicModal').style.display = 'flex';
+        const apiBaseUrl = '@apiBaseUrl';
+        let currentPlayingSongId = null;
+        
+        // Play song function for admin
+        function playSongAdmin(songId, songName, imageUrl) {
+            console.log('Playing song:', songId, songName);
+            
+            // Update UI - mark current playing
+            document.querySelectorAll('.song-row').forEach(row => {
+                row.classList.remove('playing');
+            });
+            
+            const currentRow = document.querySelector(`tr[data-song-id="${songId}"]`);
+            if (currentRow) {
+                currentRow.classList.add('playing');
+            }
+            
+            currentPlayingSongId = songId;
+            
+            // Use the global playSong function from player-simple.js
+            if (typeof window.playSong === 'function') {
+                const fullImageUrl = imageUrl ? (imageUrl.startsWith('http') ? imageUrl : apiBaseUrl + imageUrl) : '/images/logo.png';
+                window.playSong(songId, songName, 'SoundAudio', fullImageUrl);
+            } else {
+                console.error('playSong function not found');
+                alert('Player chưa sẵn sàng. Vui lòng thử lại.');
+            }
         }
-
-        function closeAddMusicModal() {
-            document.getElementById('addMusicModal').style.display = 'none';
+        
+        // Client-side filter by album
+        const albumFilter = document.getElementById('albumFilter');
+        const tableBody = document.getElementById('musicTableBody');
+        const rows = tableBody.querySelectorAll('tr[data-id]');
+        
+        function filterTable() {
+            const albumId = albumFilter.value;
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const rowAlbumId = row.dataset.album || '';
+                const matchesAlbum = !albumId || rowAlbumId === albumId;
+                
+                if (matchesAlbum) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            // Update pagination info
+            document.querySelector('.pagination-info').textContent = 
+                `Hiển thị ${visibleCount} bài hát`;
+                
+            // Show empty state if no results
+            const emptyRow = tableBody.querySelector('tr:not([data-id])');
+            if (visibleCount === 0 && rows.length > 0) {
+                if (!emptyRow) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="fas fa-filter"></i>
+                                <h3>Không có bài hát trong album này</h3>
+                                <p>Chọn album khác hoặc "Tất cả album"</p>
+                            </div>
+                        </td>
+                    `;
+                    tableBody.appendChild(tr);
+                }
+            } else if (emptyRow && rows.length > 0) {
+                emptyRow.remove();
+            }
         }
-
-        function editMusic(id) {
-            window.location.href = '/Admin/EditMusic/' + id;
-        }
-
-        function deleteMusic(id, name) {
-            if (confirm('Bạn có chắc muốn xóa bài hát "' + name + '"?')) {
-                fetch('/Admin/DeleteMusic/' + id, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    } else {
-                        alert('Xóa bài hát thất bại');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Có lỗi xảy ra');
+        
+        albumFilter.addEventListener('change', filterTable);
+        
+        // Sortable columns
+        document.querySelectorAll('[data-sort]').forEach(th => {
+            th.addEventListener('click', function() {
+                const column = this.dataset.sort;
+                const isAsc = this.classList.contains('sort-asc');
+                
+                // Remove sort classes from all
+                document.querySelectorAll('[data-sort]').forEach(h => {
+                    h.classList.remove('sort-asc', 'sort-desc');
                 });
-            }
-        }
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('addMusicModal');
-            if (event.target == modal) {
-                closeAddMusicModal();
-            }
-        }
+                
+                // Toggle sort direction
+                this.classList.add(isAsc ? 'sort-desc' : 'sort-asc');
+                
+                // Sort rows
+                const sortedRows = Array.from(rows).sort((a, b) => {
+                    let valA, valB;
+                    
+                    if (column === 'name') {
+                        valA = a.dataset.name.toLowerCase();
+                        valB = b.dataset.name.toLowerCase();
+                    } else if (column === 'album') {
+                        valA = a.querySelector('.album-badge')?.textContent || '';
+                        valB = b.querySelector('.album-badge')?.textContent || '';
+                    } else if (column === 'date') {
+                        valA = a.querySelector('.date-cell')?.textContent || '';
+                        valB = b.querySelector('.date-cell')?.textContent || '';
+                    }
+                    
+                    if (valA < valB) return isAsc ? 1 : -1;
+                    if (valA > valB) return isAsc ? -1 : 1;
+                    return 0;
+                });
+                
+                sortedRows.forEach(row => tableBody.appendChild(row));
+            });
+        });
     </script>
 }

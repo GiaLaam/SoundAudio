@@ -19,7 +19,7 @@ namespace MyWebApp.Mvc.Services
 
         public async Task<MusicFile?> GetByIdAsync(string id)
         {
-            var response = await _apiService.GetAsync<MusicFile>($"/api/music/byid/{id}");
+            var response = await _apiService.GetAsync<MusicFile>($"/api/music/info/{id}");
             return response;
         }
 
@@ -34,7 +34,7 @@ namespace MyWebApp.Mvc.Services
             return await _apiService.DeleteAsync($"/api/music/{id}");
         }
 
-        public async Task<MusicFile?> UploadAsync(string nameSong, Stream musicStream, string musicFileName, Stream? imageStream, string? imageFileName)
+        public async Task<MusicFile?> UploadAsync(string nameSong, Stream musicStream, string musicFileName, Stream? imageStream, string? imageFileName, string? albumId = null)
         {
             using var content = new MultipartFormDataContent();
             content.Add(new StringContent(nameSong), "NameSong");
@@ -45,7 +45,31 @@ namespace MyWebApp.Mvc.Services
                 content.Add(new StreamContent(imageStream), "ImageFile", imageFileName);
             }
 
+            if (!string.IsNullOrEmpty(albumId))
+            {
+                content.Add(new StringContent(albumId), "AlbumId");
+            }
+
             return await _apiService.PostMultipartAsync<MusicFile>("/api/music/upload", content);
+        }
+
+        public async Task<bool> UpdateAsync(string id, string nameSong, string? albumId, Stream? imageStream, string? imageFileName)
+        {
+            using var content = new MultipartFormDataContent();
+            content.Add(new StringContent(nameSong), "NameSong");
+            
+            if (!string.IsNullOrEmpty(albumId))
+            {
+                content.Add(new StringContent(albumId), "AlbumId");
+            }
+
+            if (imageStream != null && !string.IsNullOrEmpty(imageFileName))
+            {
+                content.Add(new StreamContent(imageStream), "ImageFile", imageFileName);
+            }
+
+            var result = await _apiService.PutMultipartAsync<object>($"/api/admin/update/{id}", content);
+            return result != null;
         }
     }
 
@@ -75,6 +99,32 @@ namespace MyWebApp.Mvc.Services
             var request = new { Name = name, ImageUrl = imageUrl };
             var response = await _apiService.PostAsync<object, Album>("/api/AlbumApi", request);
             return response;
+        }
+
+        public async Task<Album?> CreateWithImageAsync(string name, Stream imageStream, string imageFileName)
+        {
+            using var content = new MultipartFormDataContent();
+            content.Add(new StringContent(name), "Name");
+            content.Add(new StreamContent(imageStream), "ImageFile", imageFileName);
+
+            return await _apiService.PostMultipartAsync<Album>("/api/AlbumApi/create-with-image", content);
+        }
+
+        public async Task<bool> UpdateAsync(string id, string name)
+        {
+            var request = new { Name = name };
+            var response = await _apiService.PutAsync<object, Album>($"/api/AlbumApi/{id}", request);
+            return response != null;
+        }
+
+        public async Task<bool> UpdateWithImageAsync(string id, string name, Stream imageStream, string imageFileName)
+        {
+            using var content = new MultipartFormDataContent();
+            content.Add(new StringContent(name), "Name");
+            content.Add(new StreamContent(imageStream), "ImageFile", imageFileName);
+
+            var result = await _apiService.PutMultipartAsync<Album>($"/api/AlbumApi/{id}/update-with-image", content);
+            return result != null;
         }
 
         public async Task<bool> DeleteAsync(string id)
@@ -107,8 +157,15 @@ namespace MyWebApp.Mvc.Services
 
         public async Task<Playlist?> GetByIdAsync(string id)
         {
-            var response = await _apiService.GetAsync<Playlist>($"/api/playlist/{id}");
-            return response;
+            var response = await _apiService.GetAsync<PlaylistDetailResponse>($"/api/playlist/{id}");
+            return response?.Playlist;
+        }
+        
+        private class PlaylistDetailResponse
+        {
+            public bool Success { get; set; }
+            public Playlist? Playlist { get; set; }
+            public List<MusicFile>? Songs { get; set; }
         }
 
         public async Task<Playlist?> CreateAsync(Playlist playlist)

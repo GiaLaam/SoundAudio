@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MongoDB.Driver;
 using MongoDB.Driver.GridFS;
 using MyWebApp.Models;
@@ -59,6 +62,7 @@ namespace MyWebApp.Api.Controllers
         /// </summary>
         [HttpPost("upload")]
         [Consumes("multipart/form-data")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
@@ -90,6 +94,7 @@ namespace MyWebApp.Api.Controllers
         /// Xóa ảnh trong MongoDB GridFS theo tên file.
         /// </summary>
         [HttpDelete("{fileName}")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]

@@ -84,6 +84,7 @@ builder.Services.AddHttpClient<ApiService>(client =>
 });
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<JwtService>();
 builder.Services.AddScoped<MusicApiService>();
 builder.Services.AddScoped<AlbumApiService>();
 builder.Services.AddScoped<PlaylistApiService>();

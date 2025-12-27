@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MyWebApp.Models;
 using MyWebApp.Services;
 
@@ -50,7 +52,7 @@ namespace MyWebApp.Controllers.Api
                 return NotFound(new { message = "Không tìm thấy người dùng." });
 
             var roles = await _userManager.GetRolesAsync(user);
-            var token = await _jwtService.GenerateToken(user);
+            var token = await _jwtService.GenerateToken(user, roles);
             return Ok(new { success = true, user, roles, token });
         }
 
@@ -88,7 +90,7 @@ namespace MyWebApp.Controllers.Api
         /// <summary>
         /// Lấy danh sách tất cả bài hát (đăng nhập mới dùng được).
         /// </summary>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         [HttpGet("songs")]
         [ProducesResponseType(typeof(IEnumerable<MusicFile>), 200)]
         public async Task<IActionResult> GetAllSongs()
@@ -100,7 +102,7 @@ namespace MyWebApp.Controllers.Api
         /// <summary>
         /// Lấy thông tin hồ sơ người dùng hiện tại.
         /// </summary>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         [HttpGet("profile")]
         [ProducesResponseType(typeof(ApplicationUser), 200)]
         public async Task<IActionResult> GetProfile()
@@ -110,26 +112,30 @@ namespace MyWebApp.Controllers.Api
         }
 
         /// <summary>
-        /// Cập nhật hồ sơ người dùng.
+        /// Cập nhật hồ sơ người dùng hiện tại.
         /// </summary>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
         [HttpPut("update-profile")]
         [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileRequest model)
         {
-            var user = await _userManager.FindByIdAsync(model.UserId);
-            if (user == null)
-                return NotFound(new { message = "Không tìm thấy người dùng." });
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+                return Unauthorized(new { message = "Không xác định được người dùng." });
 
-            user.FullName = model.Name;
-            user.Email = model.Email;
-            user.UserName = model.Email;
+            // Chỉ cho phép user update profile của chính mình
+            if (currentUser.Id != model.UserId)
+                return Forbid();
 
-            var result = await _userManager.UpdateAsync(user);
+            currentUser.FullName = model.Name;
+            currentUser.Email = model.Email;
+            currentUser.UserName = model.Email;
+
+            var result = await _userManager.UpdateAsync(currentUser);
             if (result.Succeeded)
             {
-                await _signInManager.RefreshSignInAsync(user);
+                await _signInManager.RefreshSignInAsync(currentUser);
                 return Ok(new { success = true });
             }
             return BadRequest(new { success = false, errors = result.Errors });

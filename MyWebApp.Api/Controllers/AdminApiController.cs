@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using MyWebApp.Models;
 using MyWebApp.Services;
 using MongoDB.Bson;
@@ -8,7 +10,7 @@ namespace MyWebApp.Controllers.Api
 {
     [ApiController]
     [Route("api/admin")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
     public class AdminApiController : ControllerBase
     {
         private readonly MusicService _musicService;

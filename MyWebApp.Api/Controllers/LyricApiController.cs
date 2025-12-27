@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using MyWebApp.Models;
 using MyWebApp.Services;
 
 namespace MyWebApp.Api.Controllers
@@ -91,6 +95,85 @@ namespace MyWebApp.Api.Controllers
                 Console.WriteLine($"[LyricApi] Lỗi khi lấy lời bài hát ID {songId}: {ex.Message}");
                 return StatusCode(500, new { success = false, message = $"Lỗi hệ thống: {ex.Message}" });
             }
+        }
+
+        /// <summary>
+        /// Lấy tất cả lời bài hát (Admin).
+        /// </summary>
+        [HttpGet]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
+        public async Task<IActionResult> GetAll()
+        {
+            var lyrics = await _lyricService.GetAllAsync();
+            return Ok(new { success = true, data = lyrics });
+        }
+
+        /// <summary>
+        /// Tạo lời bài hát mới (Admin).
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
+        public async Task<IActionResult> Create([FromBody] CreateLyricRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Content))
+                return BadRequest(new { success = false, message = "Nội dung lời bài hát không được để trống." });
+
+            if (!MongoDB.Bson.ObjectId.TryParse(request.MusicId, out var musicObjectId))
+                return BadRequest(new { success = false, message = "ID bài hát không hợp lệ." });
+
+            var lyric = new Lyric
+            {
+                MusicIds = musicObjectId,
+                Content = request.Content
+            };
+
+            await _lyricService.CreateAsync(lyric);
+            return Ok(new { success = true, message = "Tạo lời bài hát thành công!", data = lyric });
+        }
+
+        /// <summary>
+        /// Cập nhật lời bài hát (Admin).
+        /// </summary>
+        [HttpPut("{id}")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
+        public async Task<IActionResult> Update(string id, [FromBody] UpdateLyricRequest request)
+        {
+            var lyric = await _lyricService.GetByAsync(id);
+            if (lyric == null)
+                return NotFound(new { success = false, message = "Không tìm thấy lời bài hát." });
+
+            if (!string.IsNullOrWhiteSpace(request.Content))
+                lyric.Content = request.Content;
+
+            await _lyricService.UpdateAsync(id, lyric);
+            return Ok(new { success = true, message = "Cập nhật thành công!", data = lyric });
+        }
+
+        /// <summary>
+        /// Xóa lời bài hát (Admin).
+        /// </summary>
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin", AuthenticationSchemes = $"{JwtBearerDefaults.AuthenticationScheme},{CookieAuthenticationDefaults.AuthenticationScheme}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var lyric = await _lyricService.GetByAsync(id);
+            if (lyric == null)
+                return NotFound(new { success = false, message = "Không tìm thấy lời bài hát." });
+
+            await _lyricService.DeleteAsync(id);
+            return Ok(new { success = true, message = "Xóa thành công!" });
+        }
+
+        // DTOs
+        public class CreateLyricRequest
+        {
+            public string MusicId { get; set; } = string.Empty;
+            public string Content { get; set; } = string.Empty;
+        }
+
+        public class UpdateLyricRequest
+        {
+            public string? Content { get; set; }
         }
     }
 }
